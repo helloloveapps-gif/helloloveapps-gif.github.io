@@ -3,7 +3,7 @@
   "en": {
     "play": {
       "title": "Dog Whistle & Speaker Cleaner",
-      "short": "Dog whistle, tone generator and water eject in one free, offline app.",
+      "short": "Dog whistle, tone generator and speaker water eject in one offline app.",
       "full": "Three sound tools in one simple app. Big buttons, works offline, no sign-up.\n\n🐕 DOG WHISTLE\n• Audible whistle (4–12 kHz) and quiet whistle (16–22 kHz)\n• Continuous, pulse or press-and-hold\n• Training clicker\n• Shows the highest frequency your phone can play\n\n〰️ TONE GENERATOR\n• 1 Hz to 22 kHz, type an exact number or fine-tune with + / −\n• Sine, square, sawtooth and triangle waves\n• Frequency sweep\n• Left / right channel test\n• Note name display (A4 = 440 Hz)\n\n💧 SPEAKER CLEANER\n• Plays a 60-second series of low tones, similar to the Apple Watch method, to help push water out of your speaker after it gets wet\n• Turn the volume up, hold the speaker facing down and tap Start\n\nWHY PEOPLE PICK THIS APP\n• No ads while a sound is playing\n• Remove ads with a one-time purchase — no subscription\n• 12 languages\n\nGood to know\n• Phone speakers get weak above about 18 kHz and many cannot play above 20 kHz. Results vary by dog and device.\n• The speaker cleaner helps with water drops; it cannot repair a damaged speaker.\n• Protect your hearing: start at a low volume and never hold the phone to your ear."
     },
     "ios": {
@@ -16,7 +16,7 @@
   "ko": {
     "play": {
       "title": "개 호루라기 · 스피커 물빼기",
-      "short": "개 호루라기, 주파수 발생기, 스피커 물빼기를 한 앱에. 무료, 인터넷 없이 작동.",
+      "short": "개 호루라기, 주파수 발생기, 스피커 물빼기를 한 앱에. 인터넷 없이 작동.",
       "full": "소리 도구 세 가지를 한 앱에 담았습니다. 큰 버튼, 인터넷 없이 작동, 가입 없음.\n\n🐕 개 호루라기\n• 들리는 호루라기(4~12kHz)와 조용한 호루라기(16~22kHz)\n• 연속 · 끊어서 · 누르는 동안\n• 훈련용 클리커\n• 내 폰이 낼 수 있는 최고 주파수 표시\n\n〰️ 주파수 발생기\n• 1Hz ~ 22kHz, 숫자로 직접 입력하거나 + / − 로 미세 조정\n• 사인 · 사각 · 톱니 · 삼각파\n• 주파수 스윕\n• 왼쪽 / 오른쪽 스피커 테스트\n• 음이름 표시(A4 = 440Hz)\n\n💧 스피커 물빼기\n• 애플워치와 비슷한 방식으로 낮은 소리를 60초 동안 연달아 내어, 물에 젖은 스피커의 물이 빠지도록 돕습니다\n• 볼륨을 올리고 스피커를 아래로 향한 채 시작을 누르세요\n\n이 앱을 고르는 이유\n• 소리가 나는 동안에는 광고가 없습니다\n• 광고 제거는 한 번 결제 — 구독 없음\n• 12개 언어\n\n알아 두세요\n• 폰 스피커는 약 18kHz 위에서 약해지고 20kHz 위는 소리가 안 나는 기기가 많습니다. 개와 기기에 따라 다릅니다.\n• 스피커 물빼기는 물방울 배출을 돕는 기능이며, 고장 난 스피커를 고치지는 못합니다.\n• 청력 보호: 작은 볼륨부터 시작하고 폰을 귀에 대지 마세요."
     },
     "ios": {
@@ -81,7 +81,7 @@
   "ja": {
     "play": {
       "title": "犬笛・スピーカー水抜き",
-      "short": "犬笛、周波数発生器、スピーカー水抜きを1つのアプリに。無料・オフライン。",
+      "short": "犬笛、周波数発生器、スピーカー水抜きを1つのアプリに。オフラインで動作。",
       "full": "3つのサウンドツールを1つのシンプルなアプリに。大きなボタン、オフライン、登録不要。\n\n🐕 犬笛\n• 聞こえる笛（4〜12kHz）と静かな笛（16〜22kHz）\n• 連続・パルス・長押し\n• しつけ用クリッカー\n• お使いのスマホが出せる最高周波数を表示\n\n〰️ 周波数発生器\n• 1Hz〜22kHz、数値を直接入力、または + / − で微調整\n• サイン波・矩形波・ノコギリ波・三角波\n• 周波数スイープ\n• 左右チャンネルテスト\n• 音名表示（A4 = 440Hz）\n\n💧 スピーカー水抜き\n• Apple Watch に似た方法で低い音を60秒間鳴らし、濡れたスピーカーから水を出すのを助けます\n• 音量を上げ、スピーカーを下に向けて「開始」をタップ\n\nこのアプリを選ぶ理由\n• 再生中は広告なし\n• 広告削除は1回払い、サブスクなし\n• 12言語\n\nご注意\n• スマホのスピーカーは約18kHz以上で弱くなり、20kHz以上は鳴らない端末も多いです。犬や端末により異なります。\n• 水抜きは水滴の排出を助ける機能で、故障したスピーカーは直りません。\n• 聴覚保護：小さい音量から始め、スマホを耳に当てないでください。"
     },
     "ios": {

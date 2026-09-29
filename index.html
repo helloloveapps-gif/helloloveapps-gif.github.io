@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>loveapps — simple, honest apps</title>
+<meta name="description" content="loveapps makes small, simple apps that work offline: Sound Tools (dog whistle, tone generator, speaker cleaner)." />
+<style>
+  :root { color-scheme: light dark; --bg: #f5f7fa; --card: #fff; --fg: #13202c; --muted: #5d6b79; --accent: #10a86a; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0f1419; --card: #1a2129; --fg: #eef2f6; --muted: #9aa7b4; --accent: #3ddc97; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; line-height: 1.55; }
+  main { max-width: 760px; margin: 0 auto; padding: 40px 16px 64px; }
+  h1 { font-size: 30px; margin: 0 0 4px; } .tag { color: var(--muted); margin: 0 0 32px; }
+  .app { display: flex; gap: 18px; background: var(--card); border-radius: 18px; padding: 18px; align-items: flex-start; }
+  .app img { width: 84px; height: 84px; border-radius: 20px; flex: none; }
+  .app h2 { margin: 0 0 6px; font-size: 20px; } .app p { margin: 0 0 10px; color: var(--muted); }
+  .links a { display: inline-block; margin: 4px 12px 0 0; color: var(--accent); font-weight: 600; text-decoration: none; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 14px; } footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>loveapps</h1>
+  <p class="tag">Small, simple apps that work offline. No sign-up, no tricks.</p>
+
+  <section class="app">
+    <img src="soundtools-icon.png" alt="Sound Tools icon" />
+    <div>
+      <h2>Sound Tools</h2>
+      <p>Dog whistle, tone generator and speaker cleaner in one app. 12 languages.</p>
+      <div class="links">
+        <a href="soundtools/">Try it in your browser</a>
+        <a href="soundtools/?tool=whistle">Dog whistle</a>
+        <a href="soundtools/?tool=tone">Tone generator</a>
+        <a href="soundtools/?tool=eject">Speaker cleaner</a>
+        <a href="soundtools/privacy.html">Privacy policy</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Contact: <a href="mailto:hello.loveapps@gmail.com">hello.loveapps@gmail.com</a>
+  </footer>
+</main>
+</body>
+</html>

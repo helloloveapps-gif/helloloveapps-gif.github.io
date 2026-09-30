@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /store-assets/
+Sitemap: https://helloloveapps-gif.github.io/sitemap.xml

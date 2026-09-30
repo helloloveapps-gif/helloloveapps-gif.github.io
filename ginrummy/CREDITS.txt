@@ -1,0 +1,4 @@
+Card art: SVGCards by Saul Spatz (public domain), court pictures by Byron Knoll (public domain).
+Sound: Kenney Casino Audio and Music Jingles (CC0) - kenney.nl
+Fonts: Pretendard (SIL OFL 1.1), Outfit (SIL OFL 1.1)
+Icons: Lucide (ISC)

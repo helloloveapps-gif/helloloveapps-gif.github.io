@@ -1,1 +1,0 @@
-import{W as e,C as t,a as n}from"./index-DO3jV0H6.js";class s extends e{async processImage(i){throw this.createUnimplementedException()}createUnimplementedException(){return new t("This method is not implemented on web.",n.Unimplemented)}}export{s as TextRecognitionWeb};

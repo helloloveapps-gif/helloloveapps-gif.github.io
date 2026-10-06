@@ -1,1 +1,0 @@
-import{W as e,C as n,a as t}from"./index-BCKlixKR.js";class m extends e{async processImage(o){throw this.createUnimplementedException()}createUnimplementedException(){return new n("This method is not implemented on web.",t.Unimplemented)}}export{m as ImageLabelingWeb};

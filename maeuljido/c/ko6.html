@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>매운맛 자격증 「캡사이신 기사」</title>
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://helloloveapps-gif.github.io/maeuljido/c/ko6.html" />
+<meta property="og:title" content="매운맛 자격증 「캡사이신 기사」" />
+<meta property="og:description" content="전국 매운 맛집 맵기 지도 · 8문항 설문으로 나도 자격증 발급받기" />
+<meta property="og:image" content="https://helloloveapps-gif.github.io/maeuljido/c/ko6.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="robots" content="noindex" />
+<style>body{margin:0;background:#fbf3e6;color:#3b2a1e;font:16px/1.5 system-ui,sans-serif;display:grid;place-items:center;min-height:100vh;text-align:center;padding:0 16px}img{max-width:100%;border-radius:12px}a{display:inline-block;margin-top:16px;padding:14px 28px;border-radius:12px;background:#d6301e;color:#fff;font-weight:700;text-decoration:none}</style>
+</head>
+<body>
+<main>
+  <img src="./ko6.jpg" alt="" />
+  <p>플레이 스토어로 이동하는 중…</p>
+  <a id="go" href="https://play.google.com/store/apps/details?id=com.loveapps.maeuljido">플레이 스토어에서 설치</a>
+</main>
+<script>
+// 안드로이드는 플레이 스토어 앱을 바로 연다(카카오톡 등 앱 안 브라우저 포함). 그 밖은 플레이 웹 페이지로
+var PKG = 'com.loveapps.maeuljido', WEB = 'https://play.google.com/store/apps/details?id=' + PKG;
+if (/Android/i.test(navigator.userAgent)) {
+  var it = 'intent://details?id=' + PKG + '#Intent;scheme=market;package=com.android.vending;S.browser_fallback_url=' + encodeURIComponent(WEB) + ';end';
+  document.getElementById('go').href = it;
+  location.href = it;
+} else { setTimeout(function () { location.replace(WEB); }, 1200); }
+</script>
+</body>
+</html>

@@ -26,6 +26,12 @@
   .hint { font-size: 13px; color: #5b4a3d; margin: 14px 2px 0; }
   .lang { float: right; font-size: 13px; } .lang a { color: var(--red); margin-left: 8px; }
   [hidden] { display: none !important; }
+  .picks { margin-top: 6px; border: 1.5px solid var(--line); border-radius: 8px; background: #fffdf9; max-height: 260px; overflow-y: auto; }
+  .picks button { display: block; width: 100%; text-align: left; padding: 12px; font: inherit; background: none; border: 0; border-bottom: 1px solid var(--line); color: var(--ink); cursor: pointer; }
+  .picks button:last-child { border-bottom: 0; }
+  .picks button small { color: #7a6959; margin-left: 6px; }
+  .picks .none { padding: 12px; color: #7a6959; font-size: 14px; }
+  input.chosen { border-color: #4c7a3f; background: #f2f8ef; }
 </style>
 </head>
 <body>
@@ -41,8 +47,8 @@
 
 <form id="f-video">
   <label for="v-store" data-t="vStore"></label>
-  <input id="v-store" list="stores" autocomplete="off" required />
-  <datalist id="stores"></datalist>
+  <input id="v-store" type="search" autocomplete="off" required />
+  <div id="picks" class="picks" role="listbox" hidden></div>
   <label for="v-url" data-t="vUrl"></label>
   <input id="v-url" type="url" inputmode="url" placeholder="https://youtu.be/…" required />
   <button class="go" data-t="send"></button>
@@ -73,28 +79,28 @@
 // 주소 옵션: ?s=가게번호(가게 미리 고름) · ?tab=store · ?lang=ko|en|ja|zh
 const API = location.hostname === 'localhost' ? 'http://localhost:5310' : 'https://maeuljido.duckdns.org';
 const T = {
-  ko: { title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
+  ko: { vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
     vStore: '어느 가게 영상인가요?', vUrl: '유튜브 영상 주소', send: '보내기', opt: '(선택)',
     vHint: '이 가게에서 찍은 영상만 받습니다. 확인되면 가게 화면의 영상 맨 앞에 붙고, 누르면 유튜브로 넘어갑니다.',
     sName: '가게 이름', sArea: '동네나 주소', sMenu: '매운 메뉴', sLevel: '내가 느낀 맵기 (1~10)', sLink: '지도나 영상 주소', sNote: '한마디',
     sHint: '직접 가서 확인이 되는 가게만 올립니다. 같은 가게 제보가 많을수록 먼저 봅니다.',
     okVideo: (r) => `받았습니다: 「${r.title}」 (${r.channel}). 확인한 뒤 앱에 붙입니다.`, okDone: '이 영상은 이미 이 가게에 붙어 있습니다.', okStore: '제보 고맙습니다. 확인한 뒤 지도에 올리겠습니다.',
     eStore: '목록에 있는 가게를 골라 주세요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', eUrl: '유튜브 영상 주소가 아닙니다.', eVideo: '유튜브에서 찾을 수 없는 영상입니다(비공개·삭제).', eBusy: '제보가 밀려 있습니다. 잠시 뒤에 다시 보내 주세요.', eNet: '보내지 못했습니다. 잠시 뒤에 다시 해 주세요.', eName: '가게 이름과 동네를 적어 주세요.' },
-  en: { title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach my video', tabStore: 'Suggest a spicy place',
+  en: { vFind: 'Search by name or area', vNone: 'No match. If it is not listed, use "Suggest a spicy place".', title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach my video', tabStore: 'Suggest a spicy place',
     vStore: 'Which restaurant is the video about?', vUrl: 'YouTube video link', send: 'Send', opt: '(optional)',
     vHint: 'Only videos filmed at this restaurant. Once checked, it appears first in the restaurant\'s video list and opens on YouTube.',
     sName: 'Restaurant name', sArea: 'Area or address', sMenu: 'Spicy dish', sLevel: 'How hot it felt (1–10)', sLink: 'Map or video link', sNote: 'Anything else',
     sHint: 'We only list places we can verify. Places suggested by more people are checked first.',
     okVideo: (r) => `Received: "${r.title}" (${r.channel}). We'll add it after a check.`, okDone: 'This video is already attached to this restaurant.', okStore: 'Thank you. We\'ll check it and put it on the map.',
     eStore: 'Pick a restaurant from the list. If it isn\'t listed, use "Suggest a spicy place".', eUrl: 'That is not a YouTube video link.', eVideo: 'YouTube can\'t find that video (private or deleted).', eBusy: 'Too many submissions waiting. Please try again later.', eNet: 'Couldn\'t send. Please try again later.', eName: 'Please enter the name and the area.' },
-  ja: { title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '自分の動画を載せる', tabStore: '激辛店を教える',
+  ja: { vFind: '店名や地域で検索', vNone: '該当する店がありません。ない場合は「激辛店を教える」からどうぞ。', title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '自分の動画を載せる', tabStore: '激辛店を教える',
     vStore: 'どのお店の動画ですか？', vUrl: 'YouTube動画のURL', send: '送信', opt: '(任意)',
     vHint: 'このお店で撮影した動画のみ受け付けます。確認後、お店の動画の先頭に表示され、タップするとYouTubeが開きます。',
     sName: '店名', sArea: 'エリアまたは住所', sMenu: '辛いメニュー', sLevel: '感じた辛さ (1〜10)', sLink: '地図や動画のURL', sNote: 'ひとこと',
     sHint: '確認できたお店だけ掲載します。同じお店の情報が多いほど先に確認します。',
     okVideo: (r) => `受け付けました：「${r.title}」(${r.channel})。確認後に掲載します。`, okDone: 'この動画はすでにこのお店に掲載されています。', okStore: 'ありがとうございます。確認して地図に載せます。',
     eStore: 'リストからお店を選んでください。ない場合は「激辛店を教える」からどうぞ。', eUrl: 'YouTube動画のURLではありません。', eVideo: 'YouTubeで見つからない動画です(非公開・削除)。', eBusy: '確認待ちが多くなっています。しばらくしてからお試しください。', eNet: '送信できませんでした。しばらくしてからお試しください。', eName: '店名とエリアを入力してください。' },
-  zh: { title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加我的视频', tabStore: '推荐辣味餐厅',
+  zh: { vFind: '按店名或地区搜索', vNone: '没有匹配的店。若未收录，请使用「推荐辣味餐厅」。', title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加我的视频', tabStore: '推荐辣味餐厅',
     vStore: '这是哪家店的视频？', vUrl: 'YouTube 视频链接', send: '发送', opt: '(选填)',
     vHint: '只接受在该店拍摄的视频。确认后会显示在该店视频的最前面，点击即可跳转到 YouTube。',
     sName: '店名', sArea: '区域或地址', sMenu: '辣味菜品', sLevel: '我感受到的辣度 (1~10)', sLink: '地图或视频链接', sNote: '补充说明',
@@ -121,14 +127,36 @@ $('tab-store').onclick = () => tab('store');
 tab(q.get('tab') === 'store' ? 'store' : 'video');
 
 // 가게 목록(서버가 안 되면 묶여 있는 목록)
-const label = (s) => `${(lang !== 'ko' && s[lang] && s[lang].name) || (lang !== 'ko' && s.nameEn) || s.name} · ${s.area}`;
-let byLabel = new Map();
+const nameOf = (s) => (lang !== 'ko' && s[lang] && s[lang].name) || (lang !== 'ko' && s.nameEn) || s.name;
+const label = (s) => `${nameOf(s)} · ${s.area}`;
+let all = [], chosen = null;
+// 휴대폰에서 고르기 쉽게: 글자를 넣으면 아래에 맞는 가게가 걸러져 뜨고, 눌러서 고른다(이름·영문 이름·동네·메뉴로 찾음, 띄어쓰기 무시)
+const norm = (x) => String(x || '').toLowerCase().replace(/\s+/g, '');
+const hay = (s) => norm([s.name, s.nameEn, s.area, s.menu, s.en && s.en.name, s.ja && s.ja.name, s.zh && s.zh.name, s.en && s.en.area].join(' '));
+const choose = (s) => { chosen = s; $('v-store').value = label(s); $('v-store').classList.add('chosen'); $('picks').hidden = true; };
+const showPicks = () => {
+  const q = norm($('v-store').value);
+  chosen = null; $('v-store').classList.remove('chosen');
+  const box = $('picks'); box.innerHTML = '';
+  if (!q) { box.hidden = true; return; }
+  const hit = all.filter((s) => hay(s).includes(q)).slice(0, 30);
+  if (!hit.length) { const d = document.createElement('div'); d.className = 'none'; d.textContent = t.vNone; box.append(d); }
+  for (const s of hit) {
+    const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'option');
+    b.append(nameOf(s)); const sm = document.createElement('small'); sm.textContent = s.area; b.append(sm);
+    b.onclick = () => choose(s); box.append(b);
+  }
+  box.hidden = false;
+};
+$('v-store').placeholder = t.vFind;
+$('v-store').addEventListener('input', showPicks);
+$('v-store').addEventListener('focus', () => { if (!chosen && $('v-store').value) showPicks(); });
 (async () => {
   let stores = [];
   try { stores = (await (await fetch(API + '/pack')).json()).stores; } catch { try { stores = (await (await fetch('stores.json')).json()).stores; } catch { /* 목록 없이도 가게 제보는 된다 */ } }
-  for (const s of stores) { byLabel.set(label(s), s.id); $('stores').append(new Option(label(s))); }
+  all = stores;
   const pre = stores.find((s) => s.id === Number(q.get('s')));
-  if (pre) $('v-store').value = label(pre);
+  if (pre) choose(pre);
 })();
 
 const say = (el, kind, text) => { el.className = 'msg ' + kind; el.textContent = text; };
@@ -145,7 +173,7 @@ const send = async (form, msg, path, body, okText) => {
 };
 $('f-video').onsubmit = async (ev) => {
   ev.preventDefault();
-  const storeNo = byLabel.get($('v-store').value.trim());
+  const storeNo = chosen && chosen.id;
   if (!storeNo) return say($('m-video'), 'err', t.eStore);
   if (await send($('f-video'), $('m-video'), '/videos/suggest', { storeNo, url: $('v-url').value.trim() }, (r) => (r.status === 'approved' ? t.okDone : t.okVideo(r)))) $('v-url').value = '';
 };

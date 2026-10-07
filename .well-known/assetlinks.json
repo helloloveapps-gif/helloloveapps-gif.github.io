@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.loveapps.maeuljido",
+      "sha256_cert_fingerprints": [
+        "12:40:26:57:C6:58:65:8C:02:59:1D:2A:5E:9C:4C:22:FA:50:45:5C:4C:56:63:50:EC:3E:F3:F0:F7:8A:F6:F7",
+        "49:74:CC:57:B2:2D:18:E0:9C:00:11:79:0F:16:02:AC:15:AB:02:01:E2:34:4B:06:B9:51:C8:9A:23:0C:9F:38"
+      ]
+    }
+  }
+]

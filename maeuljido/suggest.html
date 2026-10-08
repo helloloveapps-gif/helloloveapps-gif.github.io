@@ -32,6 +32,11 @@
   .picks button small { color: #7a6959; margin-left: 6px; }
   .picks .none { padding: 12px; color: #7a6959; font-size: 14px; }
   input.chosen { border-color: #4c7a3f; background: #f2f8ef; }
+  .addr { display: flex; gap: 6px; } .addr input { flex: 1; }
+  .find, .more { padding: 0 14px; font: inherit; font-weight: 700; font-size: 14px; border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; color: var(--ink); cursor: pointer; white-space: nowrap; }
+  .more { margin-top: 6px; padding: 8px 12px; border-style: dashed; }
+  #s-area2, #menus input + input { margin-top: 6px; }
+  .postcode { margin-top: 6px; height: 420px; border: 1.5px solid var(--line); border-radius: 8px; overflow: hidden; }
 </style>
 </head>
 <body>
@@ -60,9 +65,12 @@
   <label for="s-name" data-t="sName"></label>
   <input id="s-name" maxlength="60" required />
   <label for="s-area" data-t="sArea"></label>
-  <input id="s-area" maxlength="80" required />
+  <div class="addr"><input id="s-area" maxlength="60" required autocomplete="off" /><button type="button" id="s-find" class="find" data-t="sFind"></button></div>
+  <div id="postcode" class="postcode" hidden></div>
+  <input id="s-area2" maxlength="20" data-ph="sArea2" />
   <label for="s-menu"><span data-t="sMenu"></span> <small data-t="opt"></small></label>
-  <input id="s-menu" maxlength="80" />
+  <div id="menus"><input class="s-menu" id="s-menu" maxlength="18" /></div>
+  <button type="button" id="add-menu" class="more" data-t="addMenu"></button>
   <label for="s-level"><span data-t="sLevel"></span> <small data-t="opt"></small></label>
   <select id="s-level"><option value="">—</option></select>
   <label for="s-link"><span data-t="sLink"></span> <small data-t="opt"></small></label>
@@ -79,31 +87,31 @@
 // 주소 옵션: ?s=가게번호(가게 미리 고름) · ?tab=store · ?lang=ko|en|ja|zh
 const API = location.hostname === 'localhost' ? 'http://localhost:5310' : 'https://maeuljido.duckdns.org';
 const T = {
-  ko: { vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
+  ko: { sFind: '주소 검색', sArea2: '상세 주소 (층·호수 등, 선택)', addMenu: '+ 메뉴 추가', sArea: '정확한 주소', lv: ["1 · 순한맛", "2 · 살짝매운맛", "3 · 기분좋은맛 (신라면 정도)", "4 · 매운맛 (신라면보다 조금 더)", "5 · 화끈한맛 (불닭볶음면 정도)", "6 · 불맛 (핵불닭 정도)", "7 · 눈물맛 (핵불닭보다 확실히 매움)", "8 · 지옥맛 (가게가 경고하는 수준)", "9 · 죽을맛 (고스트페퍼급 · 완주자 드묾)", "10 · 저승맛 (서약서·연령 제한 급)"], vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
     vStore: '어느 가게 영상인가요?', vUrl: '유튜브 영상 주소', send: '보내기', opt: '(선택)',
     vHint: '이 가게에서 찍은 영상만 받습니다. 확인되면 가게 화면의 영상 맨 앞에 붙고, 누르면 유튜브로 넘어갑니다.',
-    sName: '가게 이름', sArea: '동네나 주소', sMenu: '매운 메뉴', sLevel: '내가 느낀 맵기 (1~10)', sLink: '지도나 영상 주소', sNote: '한마디',
+    sName: '가게 이름', sMenu: '매운 메뉴', sLevel: '내가 느낀 맵기 (1~10)', sLink: '지도나 영상 주소', sNote: '한마디',
     sHint: '직접 가서 확인이 되는 가게만 올립니다. 같은 가게 제보가 많을수록 먼저 봅니다.',
     okVideo: (r) => `받았습니다: 「${r.title}」 (${r.channel}). 확인한 뒤 앱에 붙입니다.`, okDone: '이 영상은 이미 이 가게에 붙어 있습니다.', okStore: '제보 고맙습니다. 확인한 뒤 지도에 올리겠습니다.',
     eStore: '목록에 있는 가게를 골라 주세요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', eUrl: '유튜브 영상 주소가 아닙니다.', eVideo: '유튜브에서 찾을 수 없는 영상입니다(비공개·삭제).', eBusy: '제보가 밀려 있습니다. 잠시 뒤에 다시 보내 주세요.', eNet: '보내지 못했습니다. 잠시 뒤에 다시 해 주세요.', eName: '가게 이름과 동네를 적어 주세요.' },
-  en: { vFind: 'Search by name or area', vNone: 'No match. If it is not listed, use "Suggest a spicy place".', title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach my video', tabStore: 'Suggest a spicy place',
+  en: { sFind: 'Search', sArea2: 'Floor, unit (optional)', addMenu: '+ Add a dish', sArea: 'Exact address', lv: ["1 · Mild", "2 · Tingly", "3 · Warm (about Shin Ramyun)", "4 · Spicy (a bit hotter than Shin Ramyun)", "5 · Hot (about Buldak)", "6 · Fire (about 2x Buldak)", "7 · Tears (clearly hotter than 2x Buldak)", "8 · Hell (the store warns you)", "9 · Death (ghost pepper tier · few finish)", "10 · Afterlife (waiver & age limits)"], vFind: 'Search by name or area', vNone: 'No match. If it is not listed, use "Suggest a spicy place".', title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach my video', tabStore: 'Suggest a spicy place',
     vStore: 'Which restaurant is the video about?', vUrl: 'YouTube video link', send: 'Send', opt: '(optional)',
     vHint: 'Only videos filmed at this restaurant. Once checked, it appears first in the restaurant\'s video list and opens on YouTube.',
-    sName: 'Restaurant name', sArea: 'Area or address', sMenu: 'Spicy dish', sLevel: 'How hot it felt (1–10)', sLink: 'Map or video link', sNote: 'Anything else',
+    sName: 'Restaurant name', sMenu: 'Spicy dish', sLevel: 'How hot it felt (1–10)', sLink: 'Map or video link', sNote: 'Anything else',
     sHint: 'We only list places we can verify. Places suggested by more people are checked first.',
     okVideo: (r) => `Received: "${r.title}" (${r.channel}). We'll add it after a check.`, okDone: 'This video is already attached to this restaurant.', okStore: 'Thank you. We\'ll check it and put it on the map.',
     eStore: 'Pick a restaurant from the list. If it isn\'t listed, use "Suggest a spicy place".', eUrl: 'That is not a YouTube video link.', eVideo: 'YouTube can\'t find that video (private or deleted).', eBusy: 'Too many submissions waiting. Please try again later.', eNet: 'Couldn\'t send. Please try again later.', eName: 'Please enter the name and the area.' },
-  ja: { vFind: '店名や地域で検索', vNone: '該当する店がありません。ない場合は「激辛店を教える」からどうぞ。', title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '自分の動画を載せる', tabStore: '激辛店を教える',
+  ja: { sFind: '住所検索', sArea2: '階・号室など（任意）', addMenu: '+ メニューを追加', sArea: '正確な住所', lv: ["1 · マイルド", "2 · ピリ辛", "3 · ほど辛 (辛ラーメンくらい)", "4 · 辛口 (辛ラーメンより少し辛い)", "5 · 激辛 (ブルダック炒め麺くらい)", "6 · 炎 (核ブルダックくらい)", "7 · 涙 (核ブルダックよりはっきり辛い)", "8 · 地獄 (店が警告するレベル)", "9 · 死 (ゴーストペッパー級・完食者わずか)", "10 · あの世 (誓約書・年齢制限レベル)"], vFind: '店名や地域で検索', vNone: '該当する店がありません。ない場合は「激辛店を教える」からどうぞ。', title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '自分の動画を載せる', tabStore: '激辛店を教える',
     vStore: 'どのお店の動画ですか？', vUrl: 'YouTube動画のURL', send: '送信', opt: '(任意)',
     vHint: 'このお店で撮影した動画のみ受け付けます。確認後、お店の動画の先頭に表示され、タップするとYouTubeが開きます。',
-    sName: '店名', sArea: 'エリアまたは住所', sMenu: '辛いメニュー', sLevel: '感じた辛さ (1〜10)', sLink: '地図や動画のURL', sNote: 'ひとこと',
+    sName: '店名', sMenu: '辛いメニュー', sLevel: '感じた辛さ (1〜10)', sLink: '地図や動画のURL', sNote: 'ひとこと',
     sHint: '確認できたお店だけ掲載します。同じお店の情報が多いほど先に確認します。',
     okVideo: (r) => `受け付けました：「${r.title}」(${r.channel})。確認後に掲載します。`, okDone: 'この動画はすでにこのお店に掲載されています。', okStore: 'ありがとうございます。確認して地図に載せます。',
     eStore: 'リストからお店を選んでください。ない場合は「激辛店を教える」からどうぞ。', eUrl: 'YouTube動画のURLではありません。', eVideo: 'YouTubeで見つからない動画です(非公開・削除)。', eBusy: '確認待ちが多くなっています。しばらくしてからお試しください。', eNet: '送信できませんでした。しばらくしてからお試しください。', eName: '店名とエリアを入力してください。' },
-  zh: { vFind: '按店名或地区搜索', vNone: '没有匹配的店。若未收录，请使用「推荐辣味餐厅」。', title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加我的视频', tabStore: '推荐辣味餐厅',
+  zh: { sFind: '搜索地址', sArea2: '楼层、房号（选填）', addMenu: '+ 添加菜品', sArea: '详细地址', lv: ["1 · 微辣", "2 · 小辣", "3 · 舒服辣 (辛拉面程度)", "4 · 中辣 (比辛拉面稍辣)", "5 · 大辣 (火鸡面程度)", "6 · 火辣 (核弹火鸡面程度)", "7 · 辣哭 (明显比核弹火鸡面辣)", "8 · 地狱辣 (店家会警告的程度)", "9 · 要命辣 (鬼椒级 · 很少人吃完)", "10 · 升天辣 (需签免责书 · 有年龄限制)"], vFind: '按店名或地区搜索', vNone: '没有匹配的店。若未收录，请使用「推荐辣味餐厅」。', title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加我的视频', tabStore: '推荐辣味餐厅',
     vStore: '这是哪家店的视频？', vUrl: 'YouTube 视频链接', send: '发送', opt: '(选填)',
     vHint: '只接受在该店拍摄的视频。确认后会显示在该店视频的最前面，点击即可跳转到 YouTube。',
-    sName: '店名', sArea: '区域或地址', sMenu: '辣味菜品', sLevel: '我感受到的辣度 (1~10)', sLink: '地图或视频链接', sNote: '补充说明',
+    sName: '店名', sMenu: '辣味菜品', sLevel: '我感受到的辣度 (1~10)', sLink: '地图或视频链接', sNote: '补充说明',
     sHint: '我们只收录能够核实的店。推荐的人越多，越先核实。',
     okVideo: (r) => `已收到：「${r.title}」(${r.channel})。确认后会添加。`, okDone: '该视频已经在这家店的页面上。', okStore: '感谢推荐。确认后会放到地图上。',
     eStore: '请从列表中选择店铺。如果没有，请使用「推荐辣味餐厅」。', eUrl: '这不是 YouTube 视频链接。', eVideo: 'YouTube 上找不到该视频(未公开或已删除)。', eBusy: '待确认的投稿太多，请稍后再试。', eNet: '发送失败，请稍后再试。', eName: '请填写店名和区域。' },
@@ -117,8 +125,25 @@ document.title = t.title;
 for (const e of document.querySelectorAll('[data-t]')) e.textContent = t[e.dataset.t];
 for (const a of document.querySelectorAll('.lang a')) { const p = new URLSearchParams(q); p.set('lang', a.dataset.l); a.href = '?' + p; if (a.dataset.l === lang) a.style.fontWeight = '800'; }
 const $ = (id) => document.getElementById(id);
-for (let i = 1; i <= 10; i++) $('s-level').append(new Option(String(i), String(i)));
+for (let i = 1; i <= 10; i++) $('s-level').append(new Option(t.lv[i - 1], String(i)));
+for (const e of document.querySelectorAll('[data-ph]')) e.placeholder = t[e.dataset.ph];
 
+// 매운 메뉴 여러 개(최대 4개) — 보낼 때 ', ' 로 묶는다
+$('add-menu').onclick = () => {
+  const box = $('menus');
+  if (box.children.length >= 4) return;
+  const i = document.createElement('input'); i.className = 's-menu'; i.maxLength = 18; box.append(i); i.focus();
+  if (box.children.length >= 4) $('add-menu').hidden = true;
+};
+// 정확한 주소 — 카카오(다음) 우편번호 검색으로 도로명 주소를 고른다(직접 써도 된다)
+$('s-find').onclick = () => {
+  const go = () => {
+    const box = $('postcode'); box.hidden = false;
+    new daum.Postcode({ oncomplete: (d) => { $('s-area').value = d.roadAddress || d.jibunAddress || d.address; box.hidden = true; $('s-area2').focus(); }, width: '100%', height: '100%' }).embed(box);
+  };
+  if (window.daum && daum.Postcode) return go();
+  const sc = document.createElement('script'); sc.src = 'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'; sc.onload = go; document.head.append(sc);
+};
 const tab = (which) => {
   for (const k of ['video', 'store']) { $('tab-' + k).setAttribute('aria-selected', String(k === which)); $('f-' + k).hidden = k !== which; }
 };
@@ -180,7 +205,9 @@ $('f-video').onsubmit = async (ev) => {
 $('f-store').onsubmit = async (ev) => {
   ev.preventDefault();
   const v = (id) => $(id).value.trim() || null;
-  if (await send($('f-store'), $('m-store'), '/stores/suggest', { name: v('s-name'), area: v('s-area'), menu: v('s-menu'), level: v('s-level') ? Number(v('s-level')) : null, link: v('s-link'), note: v('s-note'), lang }, () => t.okStore)) $('f-store').reset();
+  const area = [v('s-area'), v('s-area2')].filter(Boolean).join(' ').slice(0, 80) || null;
+  const menu = [...document.querySelectorAll('.s-menu')].map((i) => i.value.trim()).filter(Boolean).join(', ').slice(0, 80) || null;
+  if (await send($('f-store'), $('m-store'), '/stores/suggest', { name: v('s-name'), area, menu, level: v('s-level') ? Number(v('s-level')) : null, link: v('s-link'), note: v('s-note'), lang }, () => t.okStore)) $('f-store').reset();
 };
 </script>
 </body>

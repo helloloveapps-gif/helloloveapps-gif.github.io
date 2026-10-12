@@ -97,7 +97,7 @@
 </main>
 <script>
 // 매울지도 제보 양식: 영상 붙이기(유튜버) · 가게 제보. 보낸 사람 정보는 받지 않는다.
-// 주소 옵션: ?s=가게번호(가게 미리 고름) · ?tab=store · ?lang=ko|en|ja|zh
+// 주소 옵션: ?s=가게번호(가게 미리 고름) · ?tab=store · ?lang=ko|en|ja|zh · ?a=앱의 무작위 번호(앱에서 열 때만)
 const API = location.hostname === 'localhost' ? 'http://localhost:5310' : 'https://maeuljido.duckdns.org';
 const T = {
   ko: { vMenu: '먹은 메뉴', addVideo: '+ 영상 추가', sPhoto: '사진 (최대 3장)', sPhotoHint: '가게 간판·메뉴판·음식 사진. 운영자만 보고 확인한 뒤 지웁니다. 사진의 위치 정보는 지우고 보냅니다.', photoN: (n) => `사진 ${n}장 선택됨`, okVideos: (n, m) => `영상 ${n}개를 받았습니다. 확인한 뒤 앱에 붙입니다.` + (m ? ` (${m}개는 보내지 못했습니다)` : ''), ePhoto: '사진을 보내지 못했습니다. 2MB 이하의 jpg·png 로 다시 골라 주세요.', sFind: '주소 검색', sArea2: '상세 주소 (층·호수 등, 선택)', addMenu: '+ 메뉴 추가', sArea: '정확한 주소', lv: ["1 · 순한맛", "2 · 살짝매운맛", "3 · 기분좋은맛 (신라면 정도)", "4 · 매운맛 (신라면보다 조금 더)", "5 · 화끈한맛 (불닭볶음면 정도)", "6 · 불맛 (핵불닭 정도)", "7 · 눈물맛 (핵불닭보다 확실히 매움)", "8 · 지옥맛 (가게가 경고하는 수준)", "9 · 죽을맛 (고스트페퍼급 · 완주자 드묾)", "10 · 저승맛 (서약서·연령 제한 급)"], vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
@@ -130,6 +130,8 @@ const T = {
     eStore: '请从列表中选择店铺。如果没有，请使用「推荐辣味餐厅」。', eUrl: '这不是 YouTube 视频链接。', eVideo: 'YouTube 上找不到该视频(未公开或已删除)。', eBusy: '待确认的投稿太多，请稍后再试。', eNet: '发送失败，请稍后再试。', eName: '请填写店名和区域。' },
 };
 const q = new URLSearchParams(location.search);
+// ?a= 앱의 무작위 번호 — 앱에서 연 영상 제보에만 붙는다(앱 '내 도전 기록'에 내가 붙인 영상만 보이게). 이름·연락처는 받지 않는다
+const anonId = /^[0-9a-f-]{36}$/i.test(q.get('a') || '') ? q.get('a') : null;
 const nav = (navigator.language || 'ko').slice(0, 2);
 const lang = T[q.get('lang')] ? q.get('lang') : T[nav] ? nav : 'en';
 const t = T[lang];
@@ -234,7 +236,7 @@ $('f-video').onsubmit = async (ev) => {
   if (!storeNo) return say($('m-video'), 'err', t.eStore);
   const urls = [...document.querySelectorAll('.v-url')].map((i) => i.value.trim()).filter(Boolean);
   const menu = [...document.querySelectorAll('.v-menu')].map((i) => i.value.trim()).filter(Boolean).join(', ').slice(0, 80) || null;
-  const extra = { menu, level: $('v-level').value ? Number($('v-level').value) : null, note: $('v-note').value.trim() || null };
+  const extra = { menu, level: $('v-level').value ? Number($('v-level').value) : null, note: $('v-note').value.trim() || null, anonId };
   if (urls.length === 1) {
     if (await send($('f-video'), $('m-video'), '/videos/suggest', { storeNo, url: urls[0], ...extra }, (r) => (r.status === 'approved' ? t.okDone : t.okVideo(r)))) $('v-url').value = '';
     return;

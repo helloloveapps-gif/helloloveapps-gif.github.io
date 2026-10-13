@@ -24,6 +24,8 @@
   .msg { margin: 14px 0 0; padding: 12px; border-radius: 8px; font-size: 14px; display: none; }
   .msg.ok { display: block; background: #e8f3e4; border: 1.5px solid #4c7a3f; } .msg.err { display: block; background: #fbe6e3; border: 1.5px solid var(--red); }
   .hint { font-size: 13px; color: #5b4a3d; margin: 14px 2px 0; }
+  .msg { white-space: pre-line; }
+  .warn { margin: 12px 2px 0; padding: 10px 12px; font-size: 13px; font-weight: 700; color: #8a1d12; background: #fff1e0; border: 1.5px dashed #c9321f; border-radius: 8px; }
   .lang { float: right; font-size: 13px; } .lang a { color: var(--red); margin-left: 8px; }
   [hidden] { display: none !important; }
   .picks { margin-top: 6px; border: 1.5px solid var(--line); border-radius: 8px; background: #fffdf9; max-height: 260px; overflow-y: auto; }
@@ -64,8 +66,9 @@
   <label for="v-note"><span data-t="sNote"></span> <small data-t="opt"></small></label>
   <textarea id="v-note" maxlength="300"></textarea>
   <label for="v-url" data-t="vUrl"></label>
-  <div id="v-urls"><input id="v-url" class="v-url" type="url" inputmode="url" placeholder="https://youtu.be/…" required /></div>
+  <div id="v-urls"><input id="v-url" class="v-url" type="url" inputmode="url" placeholder="https://…" required /></div>
   <button type="button" id="v-add-url" class="more" data-t="addVideo"></button>
+  <p class="warn" data-t="warn"></p>
   <button class="go" data-t="send"></button>
   <p class="msg" id="m-video" role="status"></p>
   <p class="hint" data-t="vHint"></p>
@@ -100,34 +103,34 @@
 // 주소 옵션: ?s=가게번호(가게 미리 고름) · ?tab=store · ?lang=ko|en|ja|zh · ?a=앱의 무작위 번호(앱에서 열 때만)
 const API = location.hostname === 'localhost' ? 'http://localhost:5310' : 'https://maeuljido.duckdns.org';
 const T = {
-  ko: { vMenu: '먹은 메뉴', addVideo: '+ 영상 추가', sPhoto: '사진 (최대 3장)', sPhotoHint: '가게 간판·메뉴판·음식 사진. 운영자만 보고 확인한 뒤 지웁니다. 사진의 위치 정보는 지우고 보냅니다.', photoN: (n) => `사진 ${n}장 선택됨`, okVideos: (n, m) => `영상 ${n}개를 받았습니다. 확인한 뒤 앱에 붙입니다.` + (m ? ` (${m}개는 보내지 못했습니다)` : ''), ePhoto: '사진을 보내지 못했습니다. 2MB 이하의 jpg·png 로 다시 골라 주세요.', sFind: '주소 검색', sArea2: '상세 주소 (층·호수 등, 선택)', addMenu: '+ 메뉴 추가', sArea: '정확한 주소', lv: ["1 · 순한맛", "2 · 살짝매운맛", "3 · 기분좋은맛 (신라면 정도)", "4 · 매운맛 (신라면보다 조금 더)", "5 · 화끈한맛 (불닭볶음면 정도)", "6 · 불맛 (핵불닭 정도)", "7 · 눈물맛 (핵불닭보다 확실히 매움)", "8 · 지옥맛 (가게가 경고하는 수준)", "9 · 죽을맛 (고스트페퍼급 · 완주자 드묾)", "10 · 저승맛 (서약서·연령 제한 급)"], vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '내 영상 붙이기', tabStore: '매운 집 제보',
-    vStore: '어느 가게 영상인가요?', vUrl: '유튜브 영상 주소', send: '보내기', opt: '(선택)',
-    vHint: '이 가게에서 찍은 영상만 받습니다. 확인되면 가게 화면의 영상 맨 앞에 붙고, 누르면 유튜브로 넘어갑니다.',
+  ko: { vMenu: '먹은 메뉴', addVideo: '+ 주소 추가', sPhoto: '사진 (최대 3장)', sPhotoHint: '가게 간판·메뉴판·음식 사진. 운영자만 보고 확인한 뒤 지웁니다. 사진의 위치 정보는 지우고 보냅니다.', photoN: (n) => `사진 ${n}장 선택됨`, okVideos: (n, m) => `영상 ${n}개를 받았습니다. 확인한 뒤 앱에 붙입니다.` + (m ? ` (${m}개는 보내지 못했습니다)` : ''), ePhoto: '사진을 보내지 못했습니다. 2MB 이하의 jpg·png 로 다시 골라 주세요.', sFind: '주소 검색', sArea2: '상세 주소 (층·호수 등, 선택)', addMenu: '+ 메뉴 추가', sArea: '정확한 주소', lv: ["1 · 순한맛", "2 · 살짝매운맛", "3 · 기분좋은맛 (신라면 정도)", "4 · 매운맛 (신라면보다 조금 더)", "5 · 화끈한맛 (불닭볶음면 정도)", "6 · 불맛 (핵불닭 정도)", "7 · 눈물맛 (핵불닭보다 확실히 매움)", "8 · 지옥맛 (가게가 경고하는 수준)", "9 · 죽을맛 (고스트페퍼급 · 완주자 드묾)", "10 · 저승맛 (서약서·연령 제한 급)"], vFind: '가게 이름이나 동네로 검색', vNone: '맞는 가게가 없어요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', title: '매울지도 제보', sub: '로그인도 메일도 필요 없습니다. 확인한 뒤 앱에 반영합니다.', tabVideo: '영상·글 붙이기', tabStore: '매운 집 제보',
+    vStore: '어느 가게 이야기인가요?', vUrl: '영상·글 주소 (유튜브·틱톡·인스타그램·스레드·블로그·네이버TV)', send: '보내기', opt: '(선택)',
+    warn: '⚠ 거짓 정보, 광고·홍보, 다른 용도로 쓰는 글은 AI가 걸러 올리지 않습니다. 여러 번 걸리면 한동안 제보가 막힙니다.', eBlocked: '거절이 여러 번 쌓여 7일 동안 제보가 막혔습니다.', rPub: '✅ AI 확인을 통과해 가게에 올라갔습니다', rDone: '✅ 이미 이 가게에 붙어 있습니다', rWait: '⏳ 확인 중입니다(운영자가 한 번 더 봅니다)', rCheck: '⏳ 확인 중입니다(잠시 뒤 AI가 다시 봅니다)', rRej: '✖ 올리지 않았습니다', vHint: '이 가게에서 직접 먹은 영상·글만 받습니다. AI가 이 가게의 매운맛 이야기인지 확인하고, 맞으면 바로 가게 화면에 올라갑니다. 다른 사이트 글을 가져오지 않고, 붙여 주신 주소 하나만 확인합니다.',
     sName: '가게 이름', sMenu: '매운 메뉴', sLevel: '내가 느낀 맵기 (1~10)', sLink: '지도나 영상 주소', sNote: '한마디',
     sHint: '직접 가서 확인이 되는 가게만 올립니다. 같은 가게 제보가 많을수록 먼저 봅니다.',
     okVideo: (r) => `받았습니다: 「${r.title}」 (${r.channel}). 확인한 뒤 앱에 붙입니다.`, okDone: '이 영상은 이미 이 가게에 붙어 있습니다.', okStore: '제보 고맙습니다. 확인한 뒤 지도에 올리겠습니다.',
-    eStore: '목록에 있는 가게를 골라 주세요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', eUrl: '유튜브 영상 주소가 아닙니다.', eVideo: '유튜브에서 찾을 수 없는 영상입니다(비공개·삭제).', eBusy: '제보가 밀려 있습니다. 잠시 뒤에 다시 보내 주세요.', eNet: '보내지 못했습니다. 잠시 뒤에 다시 해 주세요.', eName: '가게 이름과 동네를 적어 주세요.' },
-  en: { vMenu: 'What you ate', addVideo: '+ Add another video', sPhoto: 'Photos (up to 3)', sPhotoHint: 'Sign, menu or dish photos. Only our team sees them, and they are deleted after the check. Location data is removed before sending.', photoN: (n) => `${n} photo(s) selected`, okVideos: (n, m) => `Received ${n} video(s). We'll add them after a check.` + (m ? ` (${m} could not be sent)` : ''), ePhoto: "Couldn't send the photos. Please pick jpg or png files under 2MB.", sFind: 'Search', sArea2: 'Floor, unit (optional)', addMenu: '+ Add a dish', sArea: 'Exact address', lv: ["1 · Mild", "2 · Tingly", "3 · Warm (about Shin Ramyun)", "4 · Spicy (a bit hotter than Shin Ramyun)", "5 · Hot (about Buldak)", "6 · Fire (about 2x Buldak)", "7 · Tears (clearly hotter than 2x Buldak)", "8 · Hell (the store warns you)", "9 · Death (ghost pepper tier · few finish)", "10 · Afterlife (waiver & age limits)"], vFind: 'Search by name or area', vNone: 'No match. If it is not listed, use "Suggest a spicy place".', title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach my video', tabStore: 'Suggest a spicy place',
-    vStore: 'Which restaurant is the video about?', vUrl: 'YouTube video link', send: 'Send', opt: '(optional)',
-    vHint: 'Only videos filmed at this restaurant. Once checked, it appears first in the restaurant\'s video list and opens on YouTube.',
+    eStore: '목록에 있는 가게를 골라 주세요. 없는 가게라면 「매운 집 제보」로 보내 주세요.', eUrl: '받지 않는 주소입니다. 유튜브·틱톡·인스타그램·스레드·블로그·네이버TV 주소를 붙여 주세요.', eVideo: '유튜브에서 찾을 수 없는 영상입니다(비공개·삭제).', eBusy: '제보가 밀려 있습니다. 잠시 뒤에 다시 보내 주세요.', eNet: '보내지 못했습니다. 잠시 뒤에 다시 해 주세요.', eName: '가게 이름과 동네를 적어 주세요.' },
+  en: { vMenu: 'What you ate', addVideo: '+ Add another link', sPhoto: 'Photos (up to 3)', sPhotoHint: 'Sign, menu or dish photos. Only our team sees them, and they are deleted after the check. Location data is removed before sending.', photoN: (n) => `${n} photo(s) selected`, okVideos: (n, m) => `Received ${n} video(s). We'll add them after a check.` + (m ? ` (${m} could not be sent)` : ''), ePhoto: "Couldn't send the photos. Please pick jpg or png files under 2MB.", sFind: 'Search', sArea2: 'Floor, unit (optional)', addMenu: '+ Add a dish', sArea: 'Exact address', lv: ["1 · Mild", "2 · Tingly", "3 · Warm (about Shin Ramyun)", "4 · Spicy (a bit hotter than Shin Ramyun)", "5 · Hot (about Buldak)", "6 · Fire (about 2x Buldak)", "7 · Tears (clearly hotter than 2x Buldak)", "8 · Hell (the store warns you)", "9 · Death (ghost pepper tier · few finish)", "10 · Afterlife (waiver & age limits)"], vFind: 'Search by name or area', vNone: 'No match. If it is not listed, use "Suggest a spicy place".', title: 'Maeul Map — Submit', sub: 'No sign-in, no email. We check each one and add it to the app.', tabVideo: 'Attach a video or post', tabStore: 'Suggest a spicy place',
+    vStore: 'Which restaurant is it about?', vUrl: 'Link (YouTube, TikTok, Instagram, Threads, blog, Naver TV)', send: 'Send', opt: '(optional)',
+    warn: '⚠ False information, ads or promotion, or posts used for another purpose are filtered out by AI. Repeated attempts block submissions for a while.', eBlocked: 'Too many rejected links — submissions are blocked for 7 days.', rPub: '✅ Passed the AI check and is now on the restaurant page', rDone: '✅ Already attached to this restaurant', rWait: '⏳ In review (our team will take a look)', rCheck: '⏳ Checking (AI will look again shortly)', rRej: '✖ Not added', vHint: 'Only videos or posts about eating at this restaurant. AI checks that it is really about this place and its spicy food, and if so it appears on the restaurant page right away. We only read the one link you paste.',
     sName: 'Restaurant name', sMenu: 'Spicy dish', sLevel: 'How hot it felt (1–10)', sLink: 'Map or video link', sNote: 'Anything else',
     sHint: 'We only list places we can verify. Places suggested by more people are checked first.',
     okVideo: (r) => `Received: "${r.title}" (${r.channel}). We'll add it after a check.`, okDone: 'This video is already attached to this restaurant.', okStore: 'Thank you. We\'ll check it and put it on the map.',
-    eStore: 'Pick a restaurant from the list. If it isn\'t listed, use "Suggest a spicy place".', eUrl: 'That is not a YouTube video link.', eVideo: 'YouTube can\'t find that video (private or deleted).', eBusy: 'Too many submissions waiting. Please try again later.', eNet: 'Couldn\'t send. Please try again later.', eName: 'Please enter the name and the area.' },
-  ja: { vMenu: '食べたメニュー', addVideo: '+ 動画を追加', sPhoto: '写真（最大3枚）', sPhotoHint: '看板・メニュー・料理の写真。運営者だけが見て、確認後に削除します。位置情報は消してから送ります。', photoN: (n) => `写真${n}枚を選択`, okVideos: (n, m) => `動画${n}件を受け付けました。確認後に掲載します。` + (m ? `（${m}件は送れませんでした）` : ''), ePhoto: '写真を送れませんでした。2MB以下のjpg・pngを選び直してください。', sFind: '住所検索', sArea2: '階・号室など（任意）', addMenu: '+ メニューを追加', sArea: '正確な住所', lv: ["1 · マイルド", "2 · ピリ辛", "3 · ほど辛 (辛ラーメンくらい)", "4 · 辛口 (辛ラーメンより少し辛い)", "5 · 激辛 (ブルダック炒め麺くらい)", "6 · 炎 (核ブルダックくらい)", "7 · 涙 (核ブルダックよりはっきり辛い)", "8 · 地獄 (店が警告するレベル)", "9 · 死 (ゴーストペッパー級・完食者わずか)", "10 · あの世 (誓約書・年齢制限レベル)"], vFind: '店名や地域で検索', vNone: '該当する店がありません。ない場合は「激辛店を教える」からどうぞ。', title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '自分の動画を載せる', tabStore: '激辛店を教える',
-    vStore: 'どのお店の動画ですか？', vUrl: 'YouTube動画のURL', send: '送信', opt: '(任意)',
-    vHint: 'このお店で撮影した動画のみ受け付けます。確認後、お店の動画の先頭に表示され、タップするとYouTubeが開きます。',
+    eStore: 'Pick a restaurant from the list. If it isn\'t listed, use "Suggest a spicy place".', eUrl: 'That link is not supported. Paste a YouTube, TikTok, Instagram, Threads, blog or Naver TV link.', eVideo: 'YouTube can\'t find that video (private or deleted).', eBusy: 'Too many submissions waiting. Please try again later.', eNet: 'Couldn\'t send. Please try again later.', eName: 'Please enter the name and the area.' },
+  ja: { vMenu: '食べたメニュー', addVideo: '+ リンクを追加', sPhoto: '写真（最大3枚）', sPhotoHint: '看板・メニュー・料理の写真。運営者だけが見て、確認後に削除します。位置情報は消してから送ります。', photoN: (n) => `写真${n}枚を選択`, okVideos: (n, m) => `動画${n}件を受け付けました。確認後に掲載します。` + (m ? `（${m}件は送れませんでした）` : ''), ePhoto: '写真を送れませんでした。2MB以下のjpg・pngを選び直してください。', sFind: '住所検索', sArea2: '階・号室など（任意）', addMenu: '+ メニューを追加', sArea: '正確な住所', lv: ["1 · マイルド", "2 · ピリ辛", "3 · ほど辛 (辛ラーメンくらい)", "4 · 辛口 (辛ラーメンより少し辛い)", "5 · 激辛 (ブルダック炒め麺くらい)", "6 · 炎 (核ブルダックくらい)", "7 · 涙 (核ブルダックよりはっきり辛い)", "8 · 地獄 (店が警告するレベル)", "9 · 死 (ゴーストペッパー級・完食者わずか)", "10 · あの世 (誓約書・年齢制限レベル)"], vFind: '店名や地域で検索', vNone: '該当する店がありません。ない場合は「激辛店を教える」からどうぞ。', title: 'メウルマップ 情報提供', sub: 'ログインもメールも不要です。確認してからアプリに反映します。', tabVideo: '動画・投稿を載せる', tabStore: '激辛店を教える',
+    vStore: 'どのお店の話ですか？', vUrl: 'リンク（YouTube・TikTok・Instagram・Threads・ブログ・NAVER TV）', send: '送信', opt: '(任意)',
+    warn: '⚠ 嘘の情報、広告・宣伝、別の目的の投稿はAIがはじいて載せません。何度も続くとしばらく投稿できなくなります。', eBlocked: '却下が重なったため、7日間投稿できません。', rPub: '✅ AIの確認を通り、お店に載りました', rDone: '✅ すでにこのお店に載っています', rWait: '⏳ 確認中です（運営者がもう一度見ます）', rCheck: '⏳ 確認中です（少し後にAIがもう一度見ます）', rRej: '✖ 載せませんでした', vHint: 'このお店で実際に食べた動画・投稿だけ受け付けます。AIがこのお店の激辛の話か確かめ、合っていればすぐお店の画面に載ります。貼ったリンク1つだけを確認します。',
     sName: '店名', sMenu: '辛いメニュー', sLevel: '感じた辛さ (1〜10)', sLink: '地図や動画のURL', sNote: 'ひとこと',
     sHint: '確認できたお店だけ掲載します。同じお店の情報が多いほど先に確認します。',
     okVideo: (r) => `受け付けました：「${r.title}」(${r.channel})。確認後に掲載します。`, okDone: 'この動画はすでにこのお店に掲載されています。', okStore: 'ありがとうございます。確認して地図に載せます。',
-    eStore: 'リストからお店を選んでください。ない場合は「激辛店を教える」からどうぞ。', eUrl: 'YouTube動画のURLではありません。', eVideo: 'YouTubeで見つからない動画です(非公開・削除)。', eBusy: '確認待ちが多くなっています。しばらくしてからお試しください。', eNet: '送信できませんでした。しばらくしてからお試しください。', eName: '店名とエリアを入力してください。' },
-  zh: { vMenu: '吃了什么', addVideo: '+ 再添加视频', sPhoto: '照片（最多3张）', sPhotoHint: '招牌、菜单或菜品照片。仅运营团队查看，确认后删除。发送前会去掉位置信息。', photoN: (n) => `已选 ${n} 张照片`, okVideos: (n, m) => `已收到 ${n} 个视频，确认后会添加。` + (m ? `（${m} 个未能发送）` : ''), ePhoto: '照片发送失败。请选择 2MB 以下的 jpg 或 png。', sFind: '搜索地址', sArea2: '楼层、房号（选填）', addMenu: '+ 添加菜品', sArea: '详细地址', lv: ["1 · 微辣", "2 · 小辣", "3 · 舒服辣 (辛拉面程度)", "4 · 中辣 (比辛拉面稍辣)", "5 · 大辣 (火鸡面程度)", "6 · 火辣 (核弹火鸡面程度)", "7 · 辣哭 (明显比核弹火鸡面辣)", "8 · 地狱辣 (店家会警告的程度)", "9 · 要命辣 (鬼椒级 · 很少人吃完)", "10 · 升天辣 (需签免责书 · 有年龄限制)"], vFind: '按店名或地区搜索', vNone: '没有匹配的店。若未收录，请使用「推荐辣味餐厅」。', title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加我的视频', tabStore: '推荐辣味餐厅',
-    vStore: '这是哪家店的视频？', vUrl: 'YouTube 视频链接', send: '发送', opt: '(选填)',
-    vHint: '只接受在该店拍摄的视频。确认后会显示在该店视频的最前面，点击即可跳转到 YouTube。',
+    eStore: 'リストからお店を選んでください。ない場合は「激辛店を教える」からどうぞ。', eUrl: '対応していないリンクです。YouTube・TikTok・Instagram・Threads・ブログ・NAVER TVのリンクを貼ってください。', eVideo: 'YouTubeで見つからない動画です(非公開・削除)。', eBusy: '確認待ちが多くなっています。しばらくしてからお試しください。', eNet: '送信できませんでした。しばらくしてからお試しください。', eName: '店名とエリアを入力してください。' },
+  zh: { vMenu: '吃了什么', addVideo: '+ 再添加链接', sPhoto: '照片（最多3张）', sPhotoHint: '招牌、菜单或菜品照片。仅运营团队查看，确认后删除。发送前会去掉位置信息。', photoN: (n) => `已选 ${n} 张照片`, okVideos: (n, m) => `已收到 ${n} 个视频，确认后会添加。` + (m ? `（${m} 个未能发送）` : ''), ePhoto: '照片发送失败。请选择 2MB 以下的 jpg 或 png。', sFind: '搜索地址', sArea2: '楼层、房号（选填）', addMenu: '+ 添加菜品', sArea: '详细地址', lv: ["1 · 微辣", "2 · 小辣", "3 · 舒服辣 (辛拉面程度)", "4 · 中辣 (比辛拉面稍辣)", "5 · 大辣 (火鸡面程度)", "6 · 火辣 (核弹火鸡面程度)", "7 · 辣哭 (明显比核弹火鸡面辣)", "8 · 地狱辣 (店家会警告的程度)", "9 · 要命辣 (鬼椒级 · 很少人吃完)", "10 · 升天辣 (需签免责书 · 有年龄限制)"], vFind: '按店名或地区搜索', vNone: '没有匹配的店。若未收录，请使用「推荐辣味餐厅」。', title: '辣味地图 投稿', sub: '无需登录或邮件。我们确认后会更新到应用中。', tabVideo: '添加视频·文章', tabStore: '推荐辣味餐厅',
+    vStore: '是哪家店的内容？', vUrl: '链接（YouTube、TikTok、Instagram、Threads、博客、NAVER TV）', send: '发送', opt: '(选填)',
+    warn: '⚠ 虚假信息、广告宣传或挪作他用的内容会被 AI 过滤，不会发布。多次违规将暂时无法投稿。', eBlocked: '被拒次数过多，7 天内无法投稿。', rPub: '✅ 已通过 AI 审核并显示在店铺页面', rDone: '✅ 已经在这家店的页面上', rWait: '⏳ 审核中（运营团队会再看一遍）', rCheck: '⏳ 确认中（AI 稍后会再看）', rRej: '✖ 未发布', vHint: '只接受在这家店实际吃过的视频或文章。AI 会确认内容确实是这家店的辣味，符合就会立刻显示在店铺页面。我们只读取你贴的这一个链接。',
     sName: '店名', sMenu: '辣味菜品', sLevel: '我感受到的辣度 (1~10)', sLink: '地图或视频链接', sNote: '补充说明',
     sHint: '我们只收录能够核实的店。推荐的人越多，越先核实。',
     okVideo: (r) => `已收到：「${r.title}」(${r.channel})。确认后会添加。`, okDone: '该视频已经在这家店的页面上。', okStore: '感谢推荐。确认后会放到地图上。',
-    eStore: '请从列表中选择店铺。如果没有，请使用「推荐辣味餐厅」。', eUrl: '这不是 YouTube 视频链接。', eVideo: 'YouTube 上找不到该视频(未公开或已删除)。', eBusy: '待确认的投稿太多，请稍后再试。', eNet: '发送失败，请稍后再试。', eName: '请填写店名和区域。' },
+    eStore: '请从列表中选择店铺。如果没有，请使用「推荐辣味餐厅」。', eUrl: '不支持该链接。请贴 YouTube、TikTok、Instagram、Threads、博客或 NAVER TV 链接。', eVideo: 'YouTube 上找不到该视频(未公开或已删除)。', eBusy: '待确认的投稿太多，请稍后再试。', eNet: '发送失败，请稍后再试。', eName: '请填写店名和区域。' },
 };
 const q = new URLSearchParams(location.search);
 // ?a= 앱의 무작위 번호 — 앱에서 연 영상 제보에만 붙는다(앱 '내 도전 기록'에 내가 붙인 영상만 보이게). 이름·연락처는 받지 않는다
@@ -237,14 +240,25 @@ $('f-video').onsubmit = async (ev) => {
   const urls = [...document.querySelectorAll('.v-url')].map((i) => i.value.trim()).filter(Boolean);
   const menu = [...document.querySelectorAll('.v-menu')].map((i) => i.value.trim()).filter(Boolean).join(', ').slice(0, 80) || null;
   const extra = { menu, level: $('v-level').value ? Number($('v-level').value) : null, note: $('v-note').value.trim() || null, anonId };
-  if (urls.length === 1) {
-    if (await send($('f-video'), $('m-video'), '/videos/suggest', { storeNo, url: urls[0], ...extra }, (r) => (r.status === 'approved' ? t.okDone : t.okVideo(r)))) $('v-url').value = '';
-    return;
+  const btn = $('f-video').querySelector('.go'); btn.disabled = true;
+  const lines = []; let good = 0;
+  // 유튜브는 기존 영상 제보로, 나머지 매체는 링크 제보로 — 서버 AI 가 이 가게 이야기인지 보고 바로 게시·확인 중·안 올림을 돌려준다
+  for (const url of urls) {
+    const yt = /(youtube\.com|youtu\.be)\//i.test(url);
+    try {
+      const r = await fetch(API + (yt ? '/videos/suggest' : '/links/suggest'), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(yt ? { storeNo, url, ...extra } : { storeNo, url, note: extra.note, anonId }) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) { lines.push('✖ ' + (j.error === 'blocked' ? t.eBlocked : r.status === 429 ? t.eBusy : j.error === 'video' ? t.eVideo : j.error === 'store' ? t.eStore : j.error === 'url' || j.error === 'youtube' ? t.eUrl : t.eNet)); continue; }
+      const name = j.title ? `「${j.title}」 ` : '';
+      const st = j.status;
+      const head = st === 'published' || (st === 'approved' && !yt) ? t.rPub : st === 'approved' ? t.rDone : st === 'rejected' ? t.rRej : st === 'checking' ? t.rCheck : t.rWait;
+      lines.push(name + head + (st === 'rejected' && j.reason ? ` — ${j.reason}` : ''));
+      if (st !== 'rejected') good++;
+    } catch { lines.push('✖ ' + t.eNet); }
   }
-  const btn = $('f-video').querySelector('.go'); btn.disabled = true; let ok = 0, bad = 0;
-  for (const url of urls) { try { const r = await fetch(API + '/videos/suggest', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ storeNo, url, ...extra }) }); r.ok ? ok++ : bad++; } catch { bad++; } }
-  btn.disabled = false; say($('m-video'), ok ? 'ok' : 'err', ok ? t.okVideos(ok, bad) : t.eUrl);
-  if (ok) for (const i of document.querySelectorAll('.v-url')) i.value = '';
+  btn.disabled = false;
+  say($('m-video'), good ? 'ok' : 'err', lines.join('\n'));
+  if (good) for (const i of document.querySelectorAll('.v-url')) i.value = '';
 };
 $('f-store').onsubmit = async (ev) => {
   ev.preventDefault();

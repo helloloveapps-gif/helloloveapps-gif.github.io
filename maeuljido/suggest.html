@@ -265,7 +265,7 @@ $('f-store').onsubmit = async (ev) => {
   const v = (id) => $(id).value.trim() || null;
   const area = [v('s-area'), v('s-area2')].filter(Boolean).join(' ').slice(0, 80) || null;
   const menu = [...document.querySelectorAll('.s-menu')].map((i) => i.value.trim()).filter(Boolean).join(', ').slice(0, 80) || null;
-  if (await send($('f-store'), $('m-store'), '/stores/suggest', { name: v('s-name'), area, menu, level: v('s-level') ? Number(v('s-level')) : null, link: v('s-link'), note: v('s-note'), lang, photos }, () => t.okStore)) { $('f-store').reset(); photos = []; $('s-photo-n').textContent = t.sPhotoHint; }
+  if (await send($('f-store'), $('m-store'), '/stores/suggest', { name: v('s-name'), area, menu, level: v('s-level') ? Number(v('s-level')) : null, link: v('s-link'), note: v('s-note'), lang, photos, anonId }, () => t.okStore)) { $('f-store').reset(); photos = []; $('s-photo-n').textContent = t.sPhotoHint; }
 };
 </script>
 </body>

@@ -259,14 +259,18 @@ $('save').onclick = () => {
   g.fillStyle = '#1d1611'; g.font = F(900, 40); g.fillText('맵BTI · 혀 안 대고 재는 맵기 유형', 120, 155);
   g.fillStyle = '#c8321f'; g.font = F(900, 170); g.fillText(cur.c, 116, 330);
   g.fillStyle = '#1d1611'; g.font = F(900, 56); g.fillText(t.n, 120, 415);
+  g.fillStyle = '#c8321f'; g.font = F(900, 34); g.fillText('맵기 ' + cur.lv + ' · ' + LVN(cur.lv), 120, 472);
   { const s = Math.min(230 / img.naturalWidth, 230 / img.naturalHeight); g.drawImage(img, 750, 120, img.naturalWidth * s, img.naturalHeight * s); }
-  AX.forEach((x, j) => { const pa = cur.ps[j], y = 490 + j * 100, win = pa >= 50;
+  AX.forEach((x, j) => { const pa = cur.ps[j], y = 540 + j * 88, win = pa >= 50;
     g.font = F(900, 32); g.fillStyle = win ? '#1d1611' : '#6b5a4c'; g.fillText(x.an + ' ' + pa + '%', 120, y);
     g.fillStyle = win ? '#6b5a4c' : '#1d1611'; g.textAlign = 'right'; g.fillText((100 - pa) + '% ' + x.bn, 960, y); g.textAlign = 'left';
     g.fillStyle = '#fff'; g.fillRect(120, y + 16, 840, 32); g.fillStyle = '#c8321f'; win ? g.fillRect(120, y + 16, 840 * pa / 100, 32) : g.fillRect(960 - 840 * (100 - pa) / 100, y + 16, 840 * (100 - pa) / 100, 32);
     g.lineWidth = 5; g.strokeStyle = '#1d1611'; g.strokeRect(120, y + 16, 840, 32); });
-  g.fillStyle = '#1d1611'; g.font = F(700, 34); t.f.forEach((f, k) => g.fillText('- ' + f, 120, 920 + k * 58));
-  g.font = F(900, 40); g.fillText('맵기 ' + cur.lv + ' · ' + LVN(cur.lv), 120, 1120);
+  // 특징 — 낱말 단위로 줄을 나눠 카드 안에 넣는다
+  g.fillStyle = '#1d1611'; g.font = F(700, 28); let y = 900;
+  t.f.forEach(f => { const ws = f.split(' '); let line = ''; const out = [];
+    ws.forEach(w => { const tr = line ? line + ' ' + w : w; if (g.measureText(tr).width > 800 && line) { out.push(line); line = w; } else line = tr; }); out.push(line);
+    g.fillRect(124, y - 18, 10, 10); out.forEach(l => { g.fillText(l, 150, y); y += 38; }); y += 8; });
   g.fillStyle = '#1d1611'; g.fillRect(70, 1160, 930, 110); g.fillStyle = '#ffd84a'; g.font = F(900, 40); g.fillText('너도 해 봐 → 맵BTI · 매울지도', 120, 1228);
   cv.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = '맵BTI_' + cur.c + '.png'; a.click(); toast('카드 저장 완료'); });
 };

@@ -4,13 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#ffd84a">
-<title>맵BTI — 혀 안 대고 재는 맵기 유형 테스트</title>
-<meta name="description" content="16문장 2분. 도전파·조절파, 감정파·맛파, 혼먹·떼먹, 단골파·탐험파 — 16가지 맵BTI 중 내 유형은?">
-<meta property="og:title" content="맵BTI — 혀 안 대고 재는 맵기 유형 테스트">
+<title>맵BTI 테스트 — 매운맛 MBTI, 16가지 맵기 유형 | 매울지도</title>
+<meta name="description" content="맵BTI는 매운맛 MBTI 테스트입니다. 16문장 2분으로 도전파·조절파, 감정파·맛파, 혼먹·떼먹, 단골파·탐험파 4축을 재서 16가지 맵기 유형 중 내 유형을 알려 줍니다. 무료, 설치 없음.">
+<meta name="keywords" content="맵BTI, 맵비티아이, 매운맛 MBTI, 맵기 MBTI, 매운 음식 MBTI, 음식 MBTI, MBTI 테스트, 맵기 테스트, 맵찔이 테스트, 맵부심 테스트, 매울지도">
+<link rel="canonical" href="https://helloloveapps-gif.github.io/maeun-test/">
+<meta property="og:title" content="맵BTI — 매운맛 MBTI 테스트">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="매울지도">
 <meta property="og:description" content="16문장 2분 · 16가지 유형 · 너는 맵찔이야 맵부심이야?">
 <meta property="og:image" content="https://helloloveapps-gif.github.io/maeun-test/og.png">
 <meta property="og:url" content="https://helloloveapps-gif.github.io/maeun-test/">
 <meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "맵BTI — 매운맛 MBTI 테스트", "alternateName": ["맵BTI", "매운맛 MBTI", "맵기 MBTI 테스트"], "url": "https://helloloveapps-gif.github.io/maeun-test/", "inLanguage": "ko", "applicationCategory": "EntertainmentApplication", "operatingSystem": "Web", "description": "16문장으로 4가지 축을 재서 16가지 매운맛 유형을 알려 주는 무료 MBTI식 테스트", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "KRW"}, "publisher": {"@type": "Organization", "name": "매울지도 팀"}}</script>
 <style>
 :root { --ink:#1d1611; --paper:#fdf6e7; --yel:#ffd84a; --red:#c8321f; --mut:#6b5a4c; --blue:#2f5d8a; }
 * { box-sizing:border-box; margin:0; padding:0; }
@@ -92,6 +98,11 @@ h1 em { font-style:normal; color:var(--red); }
 .play p { font-weight:800; font-size:16px; line-height:1.5; }
 .play .btn { background:var(--yel); }
 .hide { display:none !important; }
+#types h2 { font-size:22px; font-weight:900; }
+.tlist { list-style:none; margin-top:12px; }
+.tlist li { padding:9px 0; border-top:2px solid var(--ink); font-weight:800; font-size:15px; line-height:1.45; }
+.tlist li b { color:var(--red); font-weight:900; margin-right:6px; }
+.tlist li span { display:block; color:var(--mut); font-weight:700; font-size:14px; }
 .toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:var(--yel); padding:10px 16px; font-weight:900; border:3px solid var(--yel); }
 </style>
 </head>
@@ -101,7 +112,7 @@ h1 em { font-style:normal; color:var(--red); }
 <section id="s0" class="card">
   <div id="friendBox" class="friend hide"></div>
   <h1>맵<em>BTI</em></h1>
-  <p class="sub">혀 안 대고 재는 맵기 유형 테스트</p>
+  <p class="sub">매운맛 MBTI · 혀 안 대고 재는 맵기 유형 테스트</p>
   <p class="lead">16문장 · 2분 · 설치 없음<br>맵찔이인지 맵부심인지, 이제 핑계 못 댐</p>
   <div class="axes0">
     <div>도전파 H <i>vs</i> 조절파 M</div>
@@ -113,6 +124,11 @@ h1 em { font-style:normal; color:var(--red); }
   <p class="small">결과는 이 화면에서만 보여요 · 아무것도 저장 안 함</p>
 </section>
 
+<section id="types" class="card" style="margin-top:22px">
+  <h2>맵BTI 16가지 유형</h2>
+  <p class="lead">맵BTI는 매운 음식 먹는 습관으로 보는 매운맛 MBTI입니다. 맵기 태도(도전파 H · 조절파 M), 먹는 이유(감정파 E · 맛파 T), 누구랑(혼먹 S · 떼먹 G), 고르는 법(단골파 R · 탐험파 N) 네 가지 축의 조합으로 16가지 유형이 나옵니다.</p>
+  <ul class="tlist"><li><b>HESR</b> 킹받으면 그 집 가는 사람<span>스트레스 받으면 혼자 늘 가던 그 집, 제일 매운 걸로</span></li><li><b>HESN</b> 혼자 신상 도장깨기러<span>킹받는 날엔 새로 나온 제일 매운 거 혼자 격파</span></li><li><b>HEGR</b> 우리 아지트 맵부심 리더<span>모임 장소는 늘 내가 정함. 거기 제일 매운 메뉴로</span></li><li><b>HEGN</b> 인증샷 맵부심러<span>친구들 끌고 핫한 매운 집 가서 인증부터</span></li><li><b>HTSR</b> 단골집 맵치광이<span>혼자 같은 집, 같은 맛, 최고 맵기. 맛으로 먹음</span></li><li><b>HTSN</b> 혼자 매운맛 세계 여행자<span>세상 모든 매운맛을 혼자 맛으로 탐험</span></li><li><b>HTGR</b> 땀 흘려도 정면돌파 대결러<span>친구랑 늘 가는 집에서 누가 더 잘 먹나 대결</span></li><li><b>HTGN</b> 맵부심 원정대장<span>소문난 매운 집이면 친구들 데리고 원정</span></li><li><b>MESR</b> 울고 싶은 날 라면러<span>기분 꿀꿀한 날엔 혼자 늘 먹던 빨간 라면</span></li><li><b>MESN</b> 기분 따라 신상 맛보기러<span>꿀꿀한 날 편의점 신상 하나로 기분 전환</span></li><li><b>MEGR</b> 떡볶이 수다 모임장<span>매운 건 핑계, 늘 가던 떡볶이집이 수다방</span></li><li><b>MEGN</b> 핫플 인증 맵찔이<span>매운 건 약하지만 핫플은 못 참음. 보통맛 인증</span></li><li><b>MTSR</b> 묵은지 집밥러<span>익숙한 매운맛이 최고. 혼자 찌개 한 그릇</span></li><li><b>MTSN</b> 순한맛 미식 탐험가<span>맵기보다 맛. 혼자 새 맛집을 순한맛으로 정복</span></li><li><b>MTGR</b> 얼큰 해장 단골러<span>술 다음 날 친구들 끌고 늘 가는 해장집</span></li><li><b>MTGN</b> 맵찔이 맛잘알<span>맵기는 약해도 맛집 고르는 눈은 최고</span></li></ul>
+</section>
 <section id="s1" class="card hide">
   <div class="top"><span class="qn" id="qn"></span><button class="back" id="back">← 이전</button></div>
   <div class="bar"><i id="barI" style="width:0"></i></div>
@@ -189,7 +205,7 @@ const T = {
   MTGN:{ n:'맵찔이 맛잘알', o:'맵기는 약해도 맛집 고르는 눈은 최고', f:["친구들이 \"어디 맛있는 데 없어?\" 하면 단톡에서 다들 이 사람을 태그함.", "본인은 보통맛밖에 못 먹는데 데려가는 집마다 성공함. \"여기 줄 서는 이유 있음.\"", "약속 잡히면 리뷰부터 정독함. 별점보다 \"또 왔어요\" 리뷰를 믿음."], menu:'매운 갈비찜(보통맛)', mon:'10', mn:'갈비멍' },
 };
 const $ = id => document.getElementById(id);
-const show = id => ['s0','s1','s2'].forEach(s => $(s).classList.toggle('hide', s !== id));
+const show = id => { ['s0','s1','s2'].forEach(s => $(s).classList.toggle('hide', s !== id)); $('types').classList.toggle('hide', id !== 's0'); };
 let i = 0, ans = [], cur = null;
 
 function ask() {

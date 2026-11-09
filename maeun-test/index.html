@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd84a">
+<title>맵BTI — 혀 안 대고 재는 맵기 유형 테스트</title>
+<meta name="description" content="16문장 2분. 도전파·조절파, 감정파·맛파, 혼먹·떼먹, 단골파·탐험파 — 16가지 맵BTI 중 내 유형은?">
+<meta property="og:title" content="맵BTI — 혀 안 대고 재는 맵기 유형 테스트">
+<meta property="og:description" content="16문장 2분 · 16가지 유형 · 너는 맵찔이야 맵부심이야?">
+<meta property="og:image" content="https://helloloveapps-gif.github.io/maeun-test/og.png">
+<meta property="og:url" content="https://helloloveapps-gif.github.io/maeun-test/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root { --ink:#1d1611; --paper:#fdf6e7; --yel:#ffd84a; --red:#c8321f; --mut:#6b5a4c; --blue:#2f5d8a; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { background:var(--yel); color:var(--ink); font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif; -webkit-tap-highlight-color:transparent; word-break:keep-all; text-wrap:pretty; }
+body { min-height:100vh; background-image:radial-gradient(var(--ink) 1.2px, transparent 1.3px); background-size:14px 14px; }
+.wrap { max-width:440px; margin:0 auto; padding:20px 16px 40px; }
+.card { background:var(--paper); border:4px solid var(--ink); box-shadow:7px 7px 0 var(--ink); padding:22px 18px; }
+h1 { font-size:48px; line-height:1; font-weight:900; letter-spacing:-1px; }
+h1 em { font-style:normal; color:var(--red); }
+.sub { font-size:20px; font-weight:900; margin-top:8px; }
+.lead { margin-top:10px; font-size:16px; color:var(--mut); font-weight:700; line-height:1.5; }
+.axes0 { margin:16px 0 4px; display:grid; gap:6px; }
+.axes0 div { display:flex; justify-content:space-between; font-weight:900; font-size:15px; border:3px solid var(--ink); padding:6px 10px; background:#fff; }
+.axes0 i { font-style:normal; color:var(--mut); font-weight:700; }
+.btn { display:block; width:100%; margin-top:14px; padding:16px; font-weight:900; font-size:20px; font-family:inherit; color:var(--ink); background:var(--yel); border:4px solid var(--ink); box-shadow:5px 5px 0 var(--ink); cursor:pointer; text-align:center; text-decoration:none; }
+.btn:active { transform:translate(4px,4px); box-shadow:1px 1px 0 var(--ink); }
+.btn.red { background:var(--red); color:var(--paper); }
+.btn.ghost { background:var(--paper); font-size:17px; padding:12px; }
+.small { font-size:13px; color:var(--mut); margin-top:12px; text-align:center; }
+/* 문항 */
+.top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.qn { font-weight:900; color:var(--red); font-size:15px; }
+.back { background:none; border:0; font:inherit; font-weight:800; color:var(--mut); font-size:14px; cursor:pointer; }
+.back:disabled { visibility:hidden; }
+.bar { height:14px; border:3px solid var(--ink); background:var(--paper); margin-bottom:22px; }
+.bar i { display:block; height:100%; background:var(--red); transition:width .2s steps(3); }
+.q { text-wrap:balance; font-size:25px; font-weight:900; line-height:1.4; min-height:105px; display:flex; align-items:center; }
+.lik { display:flex; justify-content:space-between; align-items:center; margin:26px 0 8px; }
+.lik button { border:4px solid var(--ink); border-radius:50%; background:#fff; cursor:pointer; box-shadow:3px 3px 0 var(--ink); }
+.lik button:nth-child(1), .lik button:nth-child(5) { width:62px; height:62px; }
+.lik button:nth-child(2), .lik button:nth-child(4) { width:50px; height:50px; }
+.lik button:nth-child(3) { width:40px; height:40px; }
+.lik button:nth-child(1), .lik button:nth-child(2) { border-color:var(--blue); box-shadow:3px 3px 0 var(--blue); }
+.lik button:nth-child(4), .lik button:nth-child(5) { border-color:var(--red); box-shadow:3px 3px 0 var(--red); }
+.lik button.on:nth-child(1), .lik button.on:nth-child(2) { background:var(--blue); }
+.lik button.on:nth-child(3) { background:var(--mut); }
+.lik button.on:nth-child(4), .lik button.on:nth-child(5) { background:var(--red); }
+.likl { display:flex; justify-content:space-between; font-weight:900; font-size:14px; }
+.likl span:first-child { color:var(--blue); } .likl span:last-child { color:var(--red); }
+.picked { text-align:center; font-weight:900; margin-top:14px; min-height:24px; font-size:17px; }
+/* 결과 */
+.code { font-size:72px; font-weight:900; letter-spacing:4px; line-height:1; color:var(--red); }
+.tname { text-wrap:balance; font-size:28px; font-weight:900; margin-top:6px; line-height:1.2; }
+.one { text-wrap:balance; font-size:16px; font-weight:700; color:var(--mut); margin-top:6px; line-height:1.5; }
+.me { display:inline-block; margin-top:10px; background:var(--ink); color:var(--yel); font-weight:900; padding:4px 10px; font-size:15px; }
+.sec { margin-top:20px; }
+.sec h3 { font-size:15px; font-weight:900; background:var(--ink); color:var(--paper); display:inline-block; padding:3px 8px; margin-bottom:8px; }
+.ax { margin-top:9px; }
+.ax .lbl { display:flex; justify-content:space-between; font-weight:900; font-size:14px; }
+.ax .lbl .off { color:var(--mut); font-weight:700; }
+.ax .tr { position:relative; height:16px; border:3px solid var(--ink); background:#fff; margin-top:3px; }
+.ax .tr b { position:absolute; top:0; bottom:0; background:var(--red); }
+.feat { list-style:none; font-size:16px; line-height:1.6; font-weight:700; }
+.feat li { padding-left:22px; position:relative; margin-top:10px; }
+.feat li::before { content:''; position:absolute; left:2px; top:10px; width:9px; height:9px; background:var(--red); }
+.quote { font-size:20px; font-weight:900; border-left:6px solid var(--red); padding:4px 0 4px 12px; }
+.why { padding:12px; background:#fff; border:3px solid var(--ink); font-size:15px; line-height:1.6; font-weight:700; }
+.why ul { list-style:none; }
+.why li { padding-left:16px; position:relative; }
+.why li::before { content:''; position:absolute; left:0; top:9px; width:8px; height:8px; background:var(--red); }
+.why li span { color:var(--red); font-weight:900; }
+.why .ax-t { font-weight:900; margin-top:8px; }
+.why .ax-t:first-child { margin-top:0; }
+.lvrow { display:flex; align-items:center; gap:14px; }
+.lvrow b { font-size:56px; font-weight:900; color:var(--red); line-height:1; }
+.lvrow span { font-weight:900; font-size:17px; }
+.lvrow small { display:block; color:var(--mut); font-weight:700; font-size:14px; }
+.mates { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.mates div { border:3px solid var(--ink); padding:10px; font-size:14px; font-weight:700; line-height:1.45; background:#fff; }
+.mates div strong { display:block; font-size:13px; }
+.mates div em { font-style:normal; font-weight:900; font-size:18px; display:block; color:var(--red); }
+.mates .bad em { color:var(--blue); }
+.mon { display:flex; gap:12px; align-items:center; border:3px dashed var(--ink); padding:10px; }
+.mon img { width:96px; }
+.mon p { font-size:14px; font-weight:700; line-height:1.5; }
+.mon p b { font-size:17px; font-weight:900; }
+.friend { background:var(--ink); color:var(--paper); padding:10px 12px; font-weight:800; margin-bottom:14px; font-size:15px; line-height:1.45; }
+.play { margin-top:18px; padding:16px; background:var(--ink); color:var(--paper); text-align:center; }
+.play p { font-weight:800; font-size:16px; line-height:1.5; }
+.play .btn { background:var(--yel); }
+.hide { display:none !important; }
+.toast { position:fixed; left:50%; bottom:24px; transform:translateX(-50%); background:var(--ink); color:var(--yel); padding:10px 16px; font-weight:900; border:3px solid var(--yel); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="s0" class="card">
+  <div id="friendBox" class="friend hide"></div>
+  <h1>맵<em>BTI</em></h1>
+  <p class="sub">혀 안 대고 재는 맵기 유형 테스트</p>
+  <p class="lead">16문장 · 2분 · 설치 없음<br>맵찔이인지 맵부심인지, 이제 핑계 못 댐</p>
+  <div class="axes0">
+    <div>도전파 H <i>vs</i> 조절파 M</div>
+    <div>감정파 E <i>vs</i> 맛파 T</div>
+    <div>혼먹 S <i>vs</i> 떼먹 G</div>
+    <div>단골파 R <i>vs</i> 탐험파 N</div>
+  </div>
+  <button class="btn red" id="go">내 맵BTI 보기</button>
+  <p class="small">결과는 이 화면에서만 보여요 · 아무것도 저장 안 함</p>
+</section>
+
+<section id="s1" class="card hide">
+  <div class="top"><span class="qn" id="qn"></span><button class="back" id="back">← 이전</button></div>
+  <div class="bar"><i id="barI" style="width:0"></i></div>
+  <div class="q" id="q"></div>
+  <div class="lik" id="lik"></div>
+  <div class="likl"><span>전혀 아님</span><span>완전 나임</span></div>
+  <div class="picked" id="picked"></div>
+</section>
+
+<section id="s2" class="card hide">
+  <div class="code" id="rCode"></div>
+  <div class="tname" id="rName"></div>
+  <p class="one" id="rOne"></p>
+  <span class="me">이거 완전 나잖아</span>
+  <div class="sec"><h3>내 성향</h3><div id="rAxes"></div></div>
+  <div class="sec"><h3>이런 사람 특징</h3><ul class="feat" id="rFeat"></ul></div>
+  <div class="sec"><h3>맵기 레벨</h3><div class="lvrow"><b id="rLv"></b><div><span id="rLvName"></span><small id="rLvWhy"></small></div></div></div>
+  <div class="sec"><h3>오늘 추천 메뉴</h3><div class="quote" id="rMenu"></div></div>
+  <div class="sec"><h3>궁합</h3><div class="mates" id="rMates"></div></div>
+  <div class="sec"><h3>나랑 닮은 매운몬</h3><div class="mon"><img id="rImg" alt=""><p id="rMon"></p></div></div>
+  <button class="btn red" id="share">친구한테 결과 보내기</button>
+  <button class="btn ghost" id="save">결과 카드 저장</button>
+  <button class="btn ghost" id="again">다시 하기</button>
+  <div class="play">
+    <p>매운몬은 진짜로 잡을 수 있어요.<br>매운 거 먹고 영수증 찍으면 알이 나옴</p>
+    <a class="btn" href="https://play.google.com/store/apps/details?id=com.loveapps.maeuljido" target="_blank" rel="noopener">매울지도 무료로 받기</a>
+  </div>
+</section>
+
+</div>
+<script>
+const AX = [
+  { a:'H', b:'M', an:'도전파', bn:'조절파', ad:'매운 건 일단 덤빔', bd:'적당히가 국룰' },
+  { a:'E', b:'T', an:'감정파', bn:'맛파', ad:'기분이 맵기를 정함', bd:'맛 자체를 즐김' },
+  { a:'S', b:'G', an:'혼먹', bn:'떼먹', ad:'혼자 먹어야 편함', bd:'같이 먹어야 맛남' },
+  { a:'R', b:'N', an:'단골파', bn:'탐험파', ad:'늘 가던 집이 최고', bd:'새 집·신상부터' },
+];
+// 16문장 — x: 축 번호, s: 이 문장에 「그렇다」면 가는 글자
+const Q = [
+  { x:0, s:'H', t:'맵기 단계표 보면 무조건 10단계 찍음' },
+  { x:1, s:'E', t:'킹받는 날엔 매운 게~~~ 땡김' },
+  { x:2, s:'S', t:'매운 건 혼자가 최고. 땀이랑 같이 먹음' },
+  { x:3, s:'R', t:'메뉴판 안 봄. 늘 먹던 거' },
+  { x:0, s:'M', t:'사장님이 "이거 진짜 매운데 괜찮겠어요?" 하면 바로 다른 거 시킴' },
+  { x:1, s:'T', t:'매운 거 먹으면 "와 이 국물 맛도리다" 소리가 먼저 나옴' },
+  { x:2, s:'S', t:'새벽에 배고프면 배달 앱 켜고 닭발 쳐다봄' },
+  { x:3, s:'N', t:'편의점에 신상 매운 라면 나오면 그날 바로 사 봄' },
+  { x:0, s:'H', t:'매운 거 먹은 다음 날도 평화로움. 아무 일 없음' },
+  { x:1, s:'E', t:'매운 거 다 먹으면 스트레스가 날아가는 느낌' },
+  { x:2, s:'S', t:'매운 거 먹을 땐 혼자 유튜브 틀어 놓는 게 국룰' },
+  { x:3, s:'R', t:'맛집은 원래 가던 집이 최고. 실패 없음' },
+  { x:0, s:'M', t:'매운 거 먹을 땐 쿨피스·우유가 꼭 옆에 있어야 함' },
+  { x:1, s:'T', t:'기분이랑 상관없이 그 집 그 맛이 생각나서 먹음' },
+  { x:2, s:'G', t:'같이 먹으면서 "너 괜찮냐 ㅋㅋ" 하는 게 매운 거 먹는 재미' },
+  { x:3, s:'N', t:'줄 서는 매운 핫플 생기면 원정 감' },
+];
+const LIK = ['전혀 아님', '아님', '반반', '그럼', '완전 나임'];
+const T = {
+  HESR:{ n:'킹받으면 그 집 가는 사람', o:'스트레스 받으면 혼자 늘 가던 그 집, 제일 매운 걸로', f:["팀장한테 한 소리 들은 날, 퇴근 버스가 집 말고 마라탕집 앞에 섬. 본인도 모르게.", "혼자 3단계 먹고 땀 쫙 빼고 나오면 들어갈 때랑 표정이 다른 사람임.", "기분 안 좋은 날은 메뉴 고민 0초. 고민할 기운도 없거든."], menu:'얼얼한 마라탕', mon:'11', mn:'마라미' },
+  HESN:{ n:'혼자 신상 도장깨기러', o:'킹받는 날엔 새로 나온 제일 매운 거 혼자 격파', f:["시험 망친 날, 편의점에서 「역대급 매운맛」 신상 사 와서 혼자 조용히 복수함. 누구한테 하는 복수인지는 모름.", "휴대폰 메모장에 신상 맵기 순위표가 있음. 업데이트 주기가 공부 계획표보다 빠름.", "친구들이 그 신상 얘기 꺼낼 때쯤엔 이미 \"그거 3주 전에 먹었는데 생각보다 안 매움\" 하고 있음."], menu:'신상 매운 컵라면', mon:'06', mn:'신뿔소' },
+  HEGR:{ n:'우리 아지트 맵부심 리더', o:'모임 장소는 늘 내가 정함. 거기 제일 매운 메뉴로', f:["단톡에 누가 \"오늘 진짜 힘들다\" 올리면 위로보다 \"7시 거기\"가 먼저 올라옴. 근데 그게 위로임.", "모임은 늘 같은 불족발집. 메뉴판은 안 보고 친구들 맵기 단계까지 본인이 정함. 반대 의견은 안 받음.", "계산은 늘 이 사람이 먼저 함. 대신 다음 모임 장소도 이 사람이 정함."], menu:'불족발', mon:'13', mn:'족꿀' },
+  HEGN:{ n:'인증샷 맵부심러', o:'친구들 끌고 핫한 매운 집 가서 인증부터', f:["생일 모임 장소를 맡기면 그 주에 릴스에서 뜬 매운 집으로 잡음. 생일자 취향은 아무도 안 물어봄.", "음식 나오면 \"잠깐 아무도 손대지 마\"부터 나옴. 다 찍고 나면 떡이 이미 불어 있음.", "제일 매운 단계 시켜 놓고 \"생각보다 안 맵네?\" 하더니, 화장실 간다고 나가서 편의점 우유 사 옴."], menu:'불닭볶음면 + 치즈', mon:'09', mn:'불삐약' },
+  HTSR:{ n:'단골집 맵치광이', o:'혼자 같은 집, 같은 맛, 최고 맵기. 맛으로 먹음', f:["닭발집 구석에 지정석 있음. 혼자 최고 단계 먹으면서 맵다는 말은 한마디도 안 함. 땀이 대신 말함.", "맛이 조금만 달라져도 바로 앎. \"오늘 좀 덜 맵다?\"가 입버릇.", "누가 다른 집 추천하면 \"거기도 괜찮은데…\" 하고 끝까지 안 감. 대화는 \"여기가 근본임\"으로 끝."], menu:'숯불 매운 닭발', mon:'04', mn:'닭발토르' },
+  HTSN:{ n:'혼자 매운맛 세계 여행자', o:'세상 모든 매운맛을 혼자 맛으로 탐험', f:["동네에 처음 보는 나라 음식점 생기면 오픈 첫 주에 혼자 앉아 있음. 메뉴 이름 발음은 못 해도 주문은 함.", "먹다가 \"이거 무슨 소스지?\" 하고 진짜 검색해 봄. 결국 집에서 따라 만들다 실패함.", "맵기를 숫자 말고 \"뒤에서 치고 올라오는 매운맛\"처럼 설명함. 듣다 보면 묘하게 먹고 싶어짐."], menu:'매운 카레', mon:'23', mn:'카레끼리' },
+  HTGR:{ n:'땀 흘려도 정면돌파 대결러', o:'친구랑 늘 가는 집에서 누가 더 잘 먹나 대결', f:["친구랑 짬뽕집 가면 말 안 해도 대결 시작. 먼저 물 마시는 사람이 계산하는 룰이 어느새 생겨 있음.", "이마에서 땀이 뚝뚝 떨어지는데 숟가락은 안 멈춤. 국물 남기면 진 걸로 침.", "지면 그날 밤에 \"다음 주 토요일, 같은 집\" 재대결 신청 옴."], menu:'빨간 짬뽕', mon:'05', mn:'짬룡' },
+  HTGN:{ n:'맵부심 원정대장', o:'소문난 매운 집이면 친구들 데리고 원정', f:["금요일 밤 단톡에 지도 링크 하나랑 \"이번 주말 ㄱ?\"이 올라오면 이 사람임. 거리는 보통 왕복 3시간.", "지도 앱 저장 목록이 전부 빨간 핀. 지역별·맵기별로 폴더까지 나눠 놓음.", "원정 다녀오면 맛·맵기·웨이팅 점수표를 단톡에 올림. 아무도 안 시켰는데 매번 올림."], menu:'매운 쭈꾸미볶음', mon:'08', mn:'쭈문' },
+  MESR:{ n:'울고 싶은 날 라면러', o:'기분 꿀꿀한 날엔 혼자 늘 먹던 빨간 라면', f:["비 오는 날이나 현타 온 날엔 꼭 혼자 빨간 라면 끓임. 국물 한 숟갈 뜨고 나서야 \"크…\" 소리가 나옴.", "매워서 우는 건지 그냥 우는 건지 본인도 모름. 다 먹고 나면 이상하게 개운함.", "라면은 늘 같은 거. 힘든 날엔 새로운 맛에 도전할 힘이 없음."], menu:'얼큰한 빨간 라면', mon:'20', mn:'열우' },
+  MESN:{ n:'기분 따라 신상 맛보기러', o:'꿀꿀한 날 편의점 신상 하나로 기분 전환', f:["꿀꿀한 날 편의점 가면 신상 코너부터 감. 들어갈 땐 분명 우유만 사려고 했음.", "처음 보는 맛 하나에 기분이 확 살아남. 사진 찍어서 단톡에 \"이거 신상이래 ㅋㅋ\" 보내면 하루 끝.", "가방 열면 처음 보는 과자 하나쯤 꼭 있음. 본인도 언제 샀는지 기억 못 함."], menu:'신상 매운 과자', mon:'03', mn:'바삭미' },
+  MEGR:{ n:'떡볶이 수다 모임장', o:'매운 건 핑계, 늘 가던 떡볶이집이 수다방', f:["이 사람의 \"떡볶이 먹을래?\"를 번역하면 \"할 얘기 있음\"임.", "늘 가는 떡볶이집, 늘 보통맛. 앉자마자 \"쿨피스 시켰어?\"부터 확인함. 쿨피스 없으면 수다 시작 안 함.", "친구가 \"오늘은 매운맛 가 보자\" 하면 \"아 그래…\" 해 놓고 쿨피스 두 병 시킴."], menu:'떡볶이 + 튀김', mon:'01', mn:'떡꿈틀' },
+  MEGN:{ n:'핫플 인증 맵찔이', o:'매운 건 약하지만 핫플은 못 참음. 보통맛 인증', f:["새로 생긴 매운 핫플엔 오픈 첫 주에 친구랑 가 있음. 웨이팅 1시간도 수다 떨면 순삭.", "보통맛 시켜 놓고 사진은 제일 맵게 보이는 각도로 찍음. 스토리만 보면 맵기 만렙.", "\"보통맛도 맵다고 ㅠ\" 하면서 끝까지 다 먹음. 그리고 스토리엔 \"생각보다 할 만함\"."], menu:'매운 양념치킨', mon:'16', mn:'튀김볼' },
+  MTSR:{ n:'묵은지 집밥러', o:'익숙한 매운맛이 최고. 혼자 찌개 한 그릇', f:["배달 앱 30분 구경하다가 결국 냉장고에서 묵은지 꺼냄. \"역시 집밥이 근본.\"", "새벽에 배고프면 어제 남은 김치찌개 데워서 혼자 한 그릇. 찌개는 이틀째가 제일 맛있다고 믿음.", "맵기 도전엔 관심 없음. 유튜버 매운 챌린지 영상 보면서 찌개 떠먹음."], menu:'묵은지 김치찌개', mon:'07', mn:'찌북' },
+  MTSN:{ n:'순한맛 미식 탐험가', o:'맵기보다 맛. 혼자 새 맛집을 순한맛으로 정복', f:["혼자 새 맛집 가는 게 취미. 근데 주문할 땐 늘 \"덜 맵게 해 주세요\".", "매운 집 가서도 맵기보다 \"여기 육수 뭐로 냈지?\"가 더 궁금함.", "친구가 \"맵찔이네 ㅋㅋ\" 해도 타격 없음. \"난 맛을 먹는 거임.\""], menu:'매운 라멘(보통맛)', mon:'02', mn:'라멘냥' },
+  MTGR:{ n:'얼큰 해장 단골러', o:'술 다음 날 친구들 끌고 늘 가는 해장집', f:["회식 다음 날 아침 9시, 단톡에 \"해장 ㄱ?\"을 제일 먼저 보냄. 어제 제일 많이 마신 사람이 이 사람임.", "가는 곳은 늘 같은 육개장집. 땀이 비 오듯 흐르는데 첫마디는 \"아 시원하다.\"", "맵다면서 국물 리필 요청함. 매번 이 모순을 보여 줌."], menu:'얼큰 육개장', mon:'14', mn:'국달' },
+  MTGN:{ n:'맵찔이 맛잘알', o:'맵기는 약해도 맛집 고르는 눈은 최고', f:["친구들이 \"어디 맛있는 데 없어?\" 하면 단톡에서 다들 이 사람을 태그함.", "본인은 보통맛밖에 못 먹는데 데려가는 집마다 성공함. \"여기 줄 서는 이유 있음.\"", "약속 잡히면 리뷰부터 정독함. 별점보다 \"또 왔어요\" 리뷰를 믿음."], menu:'매운 갈비찜(보통맛)', mon:'10', mn:'갈비멍' },
+};
+const $ = id => document.getElementById(id);
+const show = id => ['s0','s1','s2'].forEach(s => $(s).classList.toggle('hide', s !== id));
+let i = 0, ans = [], cur = null;
+
+function ask() {
+  const it = Q[i];
+  $('barI').style.width = (i / Q.length * 100) + '%';
+  $('qn').textContent = (i + 1) + ' / ' + Q.length;
+  $('back').disabled = i === 0;
+  $('q').textContent = it.t;
+  $('picked').textContent = ans[i] != null ? LIK[ans[i] + 2] : '';
+  $('lik').innerHTML = '';
+  [-2, -1, 0, 1, 2].forEach(v => {
+    const b = document.createElement('button'); b.setAttribute('aria-label', LIK[v + 2]); if (ans[i] === v) b.classList.add('on');
+    b.onclick = () => { [...$('lik').children].forEach(c => c.classList.remove('on')); b.classList.add('on'); $('picked').textContent = LIK[v + 2]; ans[i] = v; i++; setTimeout(() => i < Q.length ? ask() : finish(), 220); };
+    $('lik').appendChild(b);
+  });
+}
+$('back').onclick = () => { if (i > 0) { i--; ask(); } };
+// 축 점수: 왼쪽 글자 문장은 답 그대로, 오른쪽 글자 문장은 뒤집어서(−8 ~ +8) → 왼쪽 %
+function pcts() {
+  return AX.map((x, j) => {
+    let s = 0; Q.forEach((q, k) => { if (q.x === j) s += (q.s === x.a ? 1 : -1) * (ans[k] || 0); });
+    let p = Math.round((s + 8) / 16 * 100);
+    if (p === 50) { const k = Q.findIndex(q => q.x === j); const v = (Q[k].s === x.a ? 1 : -1) * (ans[k] || 0); p = v >= 0 ? 50 : 49; }
+    return p;
+  });
+}
+const codeOf = ps => ps.map((p, j) => p >= 50 ? AX[j].a : AX[j].b).join('');
+const LVN = lv => lv <= 2 ? '순한맛 보호구역' : lv <= 4 ? '보통맛 국룰' : lv <= 6 ? '오히려 좋아' : lv <= 8 ? '땀샘 개방' : '맵치광이';
+const flip0 = c => (c[0] === 'H' ? 'M' : 'H') + c.slice(1);
+const opp = c => c.split('').map((ch, k) => ch === AX[k].a ? AX[k].b : AX[k].a).join('');
+
+function finish() { const ps = pcts(), c = codeOf(ps); history.replaceState(null, '', '?r=' + c + '&p=' + ps.join('-')); render(c, ps, true); }
+function render(c, ps, mine) {
+  const t = T[c];
+  $('rCode').textContent = c; $('rName').textContent = t.n; $('rOne').textContent = t.o;
+  $('rAxes').innerHTML = AX.map((x, j) => { const pa = ps[j], win = pa >= 50;
+    return '<div class="ax"><div class="lbl"><span class="' + (win ? '' : 'off') + '">' + x.an + ' ' + pa + '%</span><span class="' + (win ? 'off' : '') + '">' + (100 - pa) + '% ' + x.bn + '</span></div>'
+      + '<div class="tr"><b style="' + (win ? 'left:0;width:' + pa : 'right:0;width:' + (100 - pa)) + '%"></b></div></div>'; }).join('');
+  $('rFeat').innerHTML = t.f.map(f => '<li>' + f + '</li>').join('');
+  const lv = Math.max(1, Math.min(10, Math.round(ps[0] / 10)));
+  $('rLv').textContent = lv; $('rLvName').textContent = LVN(lv) ; $('rLvWhy').textContent = '도전파 ' + ps[0] + '% → 맵기 ' + lv;
+  $('rMenu').textContent = t.menu;
+  const good = flip0(c), bad = opp(c);
+  $('rMates').innerHTML = '<div><strong>찰떡</strong><em>' + good + '</em>' + T[good].n + '<br>결은 같은데 맵기만 달라서 서로 챙겨 줌</div>'
+    + '<div class="bad"><strong>메뉴 고르다 싸움</strong><em>' + bad + '</em>' + T[bad].n + '<br>넷 다 반대. 근데 은근 재밌음</div>';
+  $('rImg').src = 'img/' + t.mon + '.png';
+  $('rMon').innerHTML = '<b>' + t.mn + '</b><br>' + c + ' 유형을 닮은 매운몬. 매울지도 앱에서 ' + t.menu.replace(/\(.*\)/, '') + ' 먹고 인증하면 진짜로 잡을 수 있어요.';
+  show('s2'); window.scrollTo(0, 0);
+  cur = { c, ps, lv };
+}
+const url = () => location.origin + location.pathname + '?f=' + cur.c + '&p=' + cur.ps.join('-');
+function toast(s) { const d = document.createElement('div'); d.className = 'toast'; d.textContent = s; document.body.appendChild(d); setTimeout(() => d.remove(), 1800); }
+$('share').onclick = async () => {
+  const text = '나 ' + cur.c + ' ' + T[cur.c].n + ' 나옴 ㅋㅋ 맵기 ' + cur.lv + '. 너는?';
+  if (navigator.share) { try { await navigator.share({ title:'맵BTI', text, url:url() }); } catch (e) {} }
+  else { try { await navigator.clipboard.writeText(text + ' ' + url()); toast('링크 복사 완료'); } catch (e) { prompt('복사해서 보내 주세요', text + ' ' + url()); } }
+};
+$('again').onclick = () => { i = 0; ans = []; history.replaceState(null, '', location.pathname); show('s1'); ask(); };
+$('go').onclick = () => { show('s1'); ask(); };
+
+$('save').onclick = () => {
+  const cv = document.createElement('canvas'); cv.width = 1080; cv.height = 1350; const g = cv.getContext('2d'), t = T[cur.c], img = $('rImg');
+  const F = (w, s) => w + ' ' + s + 'px "Malgun Gothic",sans-serif';
+  g.fillStyle = '#ffd84a'; g.fillRect(0, 0, 1080, 1350);
+  g.fillStyle = '#1d1611'; for (let y = 0; y < 1350; y += 30) for (let x = (y / 30 % 2) * 15; x < 1080; x += 30) { g.beginPath(); g.arc(x, y, 2.5, 0, 7); g.fill(); }
+  g.fillRect(84, 84, 930, 1200); g.fillStyle = '#fdf6e7'; g.fillRect(70, 70, 930, 1200); g.lineWidth = 8; g.strokeStyle = '#1d1611'; g.strokeRect(70, 70, 930, 1200);
+  g.fillStyle = '#1d1611'; g.font = F(900, 40); g.fillText('맵BTI · 혀 안 대고 재는 맵기 유형', 120, 155);
+  g.fillStyle = '#c8321f'; g.font = F(900, 170); g.fillText(cur.c, 116, 330);
+  g.fillStyle = '#1d1611'; g.font = F(900, 56); g.fillText(t.n, 120, 415);
+  { const s = Math.min(230 / img.naturalWidth, 230 / img.naturalHeight); g.drawImage(img, 750, 120, img.naturalWidth * s, img.naturalHeight * s); }
+  AX.forEach((x, j) => { const pa = cur.ps[j], y = 490 + j * 100, win = pa >= 50;
+    g.font = F(900, 32); g.fillStyle = win ? '#1d1611' : '#6b5a4c'; g.fillText(x.an + ' ' + pa + '%', 120, y);
+    g.fillStyle = win ? '#6b5a4c' : '#1d1611'; g.textAlign = 'right'; g.fillText((100 - pa) + '% ' + x.bn, 960, y); g.textAlign = 'left';
+    g.fillStyle = '#fff'; g.fillRect(120, y + 16, 840, 32); g.fillStyle = '#c8321f'; win ? g.fillRect(120, y + 16, 840 * pa / 100, 32) : g.fillRect(960 - 840 * (100 - pa) / 100, y + 16, 840 * (100 - pa) / 100, 32);
+    g.lineWidth = 5; g.strokeStyle = '#1d1611'; g.strokeRect(120, y + 16, 840, 32); });
+  g.fillStyle = '#1d1611'; g.font = F(700, 34); t.f.forEach((f, k) => g.fillText('- ' + f, 120, 920 + k * 58));
+  g.font = F(900, 40); g.fillText('맵기 ' + cur.lv + ' · ' + LVN(cur.lv), 120, 1120);
+  g.fillStyle = '#1d1611'; g.fillRect(70, 1160, 930, 110); g.fillStyle = '#ffd84a'; g.font = F(900, 40); g.fillText('너도 해 봐 → 맵BTI · 매울지도', 120, 1228);
+  cv.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = '맵BTI_' + cur.c + '.png'; a.click(); toast('카드 저장 완료'); });
+};
+
+const P = new URLSearchParams(location.search);
+const pp = s => { const a = (s || '').split('-').map(Number); return a.length === 4 && a.every(n => n >= 0 && n <= 100) ? a : null; };
+const f = P.get('f');
+if (f && T[f]) { $('friendBox').innerHTML = '친구는 <b>' + f + ' ' + T[f].n + '</b> 나옴 ㅋㅋ<br>너는 뭐 나올 거 같음?'; $('friendBox').classList.remove('hide'); $('go').textContent = '나도 해 보기'; }
+const r = P.get('r'); if (r && T[r]) render(r, pp(P.get('p')) || AX.map((x, j) => r[j] === x.a ? 70 : 30), false);
+</script>
+</body>
+</html>
